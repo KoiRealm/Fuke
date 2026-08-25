@@ -36,6 +36,6 @@ dotnet test --solution fuke-common.slnx --configuration Release --no-build
 ./build.ps1 --help
 ```
 
-## 项目致谢
+## 杂谈
 
-本项目的初版是基于 [NUKE Build](https://github.com/nuke-build/nuke) 开发的，感谢 NUKE Build 团队一直以来的贡献。
+本项目的初版是基于 [NUKE Build](https://github.com/nuke-build/nuke) 10.1.0版本开发的，感谢 NUKE Build 团队一直以来的贡献。项目原本的名字叫FishNuke，由于原名称过于冗长难以输入和记忆，因此简化为FUKE以便于记忆和使用。本项目与原项目之间是完全独立的项目，与原项目不存在官方隶属关系。
