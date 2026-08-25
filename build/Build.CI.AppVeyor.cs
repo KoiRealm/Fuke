@@ -8,7 +8,7 @@ using Fuke.Components;
 [AppVeyor(
     suffix: null,
     AppVeyorImage.VisualStudio2022,
-    BranchesOnly = new[] { MasterBranch, $"/{ReleaseBranchPrefix}\\/*/" },
+    BranchesOnly = new[] { MainBranch, $"/{ReleaseBranchPrefix}\\/*/" },
     SkipTags = true,
     InvokedTargets = new[] { nameof(ITest.Test), nameof(IPack.Pack) },
     Secrets = new string[0])]
@@ -17,7 +17,7 @@ using Fuke.Components;
     AppVeyorImage.VisualStudioLatest,
     AppVeyorImage.UbuntuLatest,
     AppVeyorImage.MacOsLatest,
-    BranchesExcept = new[] { MasterBranch, $"/{ReleaseBranchPrefix}\\/*/" },
+    BranchesExcept = new[] { MainBranch, $"/{ReleaseBranchPrefix}\\/*/" },
     SkipTags = true,
     InvokedTargets = new[] { nameof(ITest.Test), nameof(IPack.Pack) },
     Secrets = new string[0])]

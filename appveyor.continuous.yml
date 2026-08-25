@@ -21,7 +21,7 @@ image:
 
 branches:
   except:
-    - master
+    - main
     - /release\/*/
 
 skip_tags: true

@@ -9,7 +9,7 @@ using Fuke.Components;
     "windows-latest",
     GitHubActionsImage.WindowsLatest,
     FetchDepth = 0,
-    OnPushBranchesIgnore = new[] { MasterBranch, $"{ReleaseBranchPrefix}/*" },
+    OnPushBranchesIgnore = new[] { MainBranch, $"{ReleaseBranchPrefix}/*" },
     OnPullRequestBranches = new[] { DevelopBranch },
     InvokedTargets = new[] { nameof(ITest.Test), nameof(IPack.Pack) },
     PublishArtifacts = false)]
@@ -17,7 +17,7 @@ using Fuke.Components;
     "macos-latest",
     GitHubActionsImage.MacOsLatest,
     FetchDepth = 0,
-    OnPushBranchesIgnore = new[] { MasterBranch, $"{ReleaseBranchPrefix}/*" },
+    OnPushBranchesIgnore = new[] { MainBranch, $"{ReleaseBranchPrefix}/*" },
     OnPullRequestBranches = new[] { DevelopBranch },
     InvokedTargets = new[] { nameof(ITest.Test), nameof(IPack.Pack) },
     PublishArtifacts = false)]
@@ -25,7 +25,7 @@ using Fuke.Components;
     "ubuntu-latest",
     GitHubActionsImage.UbuntuLatest,
     FetchDepth = 0,
-    OnPushBranchesIgnore = new[] { MasterBranch, $"{ReleaseBranchPrefix}/*" },
+    OnPushBranchesIgnore = new[] { MainBranch, $"{ReleaseBranchPrefix}/*" },
     OnPullRequestBranches = new[] { DevelopBranch },
     InvokedTargets = new[] { nameof(ITest.Test), nameof(IPack.Pack) },
     PublishArtifacts = false)]

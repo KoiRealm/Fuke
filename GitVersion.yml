@@ -6,7 +6,7 @@ assembly-file-versioning-scheme: MajorMinorPatch
 
 branches:
   main:
-    regex: ^master$
+    regex: ^main$
     label: ''
   develop:
     regex: ^develop$

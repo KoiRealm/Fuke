@@ -1,4 +1,4 @@
-// Generated from https://github.com/KoiRealm/Fuke/blob/master/source/Fuke.Common/Tools/CodeMetrics/CodeMetrics.json
+// Generated from https://github.com/KoiRealm/Fuke/blob/main/source/Fuke.Common/Tools/CodeMetrics/CodeMetrics.json
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
