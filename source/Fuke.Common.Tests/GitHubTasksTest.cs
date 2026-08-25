@@ -23,23 +23,24 @@ public class GitHubTasksTest
         if (!repository.IsGitHubRepository())
             return;
 
-        var rawUrl = $"https://raw.githubusercontent.com/{repository.Identifier}/{repository.Branch}";
-        var blobUrl = $"https://github.com/{repository.Identifier}/blob/{repository.Branch}";
-        var treeUrl = $"https://github.com/{repository.Identifier}/tree/{repository.Branch}";
+        var gitReference = repository.Commit.NotNull();
+        var rawUrl = $"https://raw.githubusercontent.com/{repository.Identifier}/{gitReference}";
+        var blobUrl = $"https://github.com/{repository.Identifier}/blob/{gitReference}";
+        var treeUrl = $"https://github.com/{repository.Identifier}/tree/{gitReference}";
 
-        repository.GetGitHubDownloadUrl(RootDirectory / "LICENSE").Should().Be($"{rawUrl}/LICENSE");
+        repository.GetGitHubDownloadUrl(RootDirectory / "LICENSE", gitReference).Should().Be($"{rawUrl}/LICENSE");
 
-        repository.GetGitHubBrowseUrl("LICENSE").Should().Be($"{blobUrl}/LICENSE");
-        repository.GetGitHubBrowseUrl("source").Should().Be($"{treeUrl}/source");
+        repository.GetGitHubBrowseUrl("LICENSE", gitReference).Should().Be($"{blobUrl}/LICENSE");
+        repository.GetGitHubBrowseUrl("source", gitReference).Should().Be($"{treeUrl}/source");
 
-        repository.GetGitHubBrowseUrl(RootDirectory / "LICENSE").Should().Be($"{blobUrl}/LICENSE");
-        repository.GetGitHubBrowseUrl(RootDirectory / "source").Should().Be($"{treeUrl}/source");
-        repository.GetGitHubBrowseUrl(RootDirectory / "source" / "Directory.Build.props").Should().Be($"{blobUrl}/source/Directory.Build.props");
+        repository.GetGitHubBrowseUrl(RootDirectory / "LICENSE", gitReference).Should().Be($"{blobUrl}/LICENSE");
+        repository.GetGitHubBrowseUrl(RootDirectory / "source", gitReference).Should().Be($"{treeUrl}/source");
+        repository.GetGitHubBrowseUrl(RootDirectory / "source" / "Directory.Build.props", gitReference).Should().Be($"{blobUrl}/source/Directory.Build.props");
 
-        repository.GetGitHubBrowseUrl("directory", itemType: GitHubItemType.Directory).Should().Be($"{treeUrl}/directory");
-        repository.GetGitHubBrowseUrl("dir/file", itemType: GitHubItemType.File).Should().Be($"{blobUrl}/dir/file");
+        repository.GetGitHubBrowseUrl("directory", gitReference, GitHubItemType.Directory).Should().Be($"{treeUrl}/directory");
+        repository.GetGitHubBrowseUrl("dir/file", gitReference, GitHubItemType.File).Should().Be($"{blobUrl}/dir/file");
 
-        repository.GetGitHubBrowseUrl(branch: repository.Branch).Should().Be(treeUrl);
+        repository.GetGitHubBrowseUrl(branch: gitReference).Should().Be(treeUrl);
     }
 
     [Fact]
