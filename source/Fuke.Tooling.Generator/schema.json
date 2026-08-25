@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "https://raw.githubusercontent.com/KoiRealm/Fuke/master/source/Fuke.Tooling.Generator/schema.json",
+  "id": "https://raw.githubusercontent.com/KoiRealm/Fuke/main/source/Fuke.Tooling.Generator/schema.json",
   "title": "Tool specification schema file by FUKE",
   "definitions": {
     "DataClass": {

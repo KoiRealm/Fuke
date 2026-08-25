@@ -66,9 +66,9 @@ partial class Build
     string FukeVersion => XmlTasks.XmlPeekSingle(VersionFile, "/Project/PropertyGroup/FukeVersion");
     string IHazChangelog.NuGetReleaseNotes =>
         $"{Fuke.Common.ChangeLog.ChangelogTasks.GetNuGetReleaseNotes(((IHazChangelog)this).ChangelogFile)}" +
-        $"{Environment.NewLine}{Environment.NewLine}Full changelog at {RepositoryUrl}/blob/{MasterBranch}/CHANGELOG.md";
+        $"{Environment.NewLine}{Environment.NewLine}Full changelog at {RepositoryUrl}/blob/{MainBranch}/CHANGELOG.md";
 
-    const string MasterBranch = "master";
+    const string MainBranch = "main";
     const string DevelopBranch = "develop";
     const string ReleaseBranchPrefix = "release";
     const string HotfixBranchPrefix = "hotfix";
@@ -130,7 +130,7 @@ partial class Build
     [Parameter("预发行包的 NuGet 源；非正式发布时必须显式指定")] readonly string PrereleaseNuGetSource;
     [Parameter("发布预发行包所需的 NuGet API 密钥")] [Secret] readonly string PrereleaseNuGetApiKey;
 
-    bool IsPublicRelease => GitRepository.IsOnMasterBranch() || GitRepository.IsOnReleaseBranch();
+    bool IsPublicRelease => GitRepository.IsOnMainBranch() || GitRepository.IsOnReleaseBranch();
     string IPublish.NuGetSource => IsPublicRelease
         ? PublicNuGetSource
         : PrereleaseNuGetSource.NotNull("未指定预发行 NuGet 源");
@@ -179,7 +179,7 @@ partial class Build
         .Inherit<ICreateGitHubRelease>()
         .TriggeredBy<IPublish>()
         .ProceedAfterFailure()
-        .OnlyWhenStatic(() => GitRepository.IsOnMasterBranch())
+        .OnlyWhenStatic(() => GitRepository.IsOnMainBranch())
         .Executes(async () =>
         {
             var issues = await GitRepository.GetGitHubMilestoneIssues(MilestoneTitle);

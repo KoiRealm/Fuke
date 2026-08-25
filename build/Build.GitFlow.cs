@@ -74,14 +74,14 @@ partial class Build
             var nextRevision = currentVersion.Revision + 1;
 
             if (!GitRepository.IsOnHotfixBranch())
-                Checkout($"{HotfixBranchPrefix}/{currentVersion.Major}.{currentVersion.Minor}.{currentVersion.Build}.{nextRevision}", start: MasterBranch);
+                Checkout($"{HotfixBranchPrefix}/{currentVersion.Major}.{currentVersion.Minor}.{currentVersion.Build}.{nextRevision}", start: MainBranch);
             else
                 FinishReleaseOrHotfix();
         });
 
     void FinishReleaseOrHotfix()
     {
-        Git($"checkout {MasterBranch}");
+        Git($"checkout {MainBranch}");
         Git($"merge --no-ff --no-edit {GitRepository.Branch}");
         var releaseTag = $"v{ReleaseVersion}";
         Git($"tag {releaseTag}");
@@ -91,7 +91,7 @@ partial class Build
 
         Git($"branch -D {GitRepository.Branch}");
 
-        Git($"push origin {MasterBranch} {DevelopBranch} {releaseTag}");
+        Git($"push origin {MainBranch} {DevelopBranch} {releaseTag}");
     }
 
     void Checkout(string branch, string start)

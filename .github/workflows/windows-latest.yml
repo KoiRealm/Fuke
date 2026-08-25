@@ -19,7 +19,7 @@ name: windows-latest
 on:
   push:
     branches-ignore:
-      - master
+      - main
       - 'release/*'
   pull_request:
     branches:

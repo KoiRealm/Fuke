@@ -1,4 +1,4 @@
-// Generated from https://github.com/KoiRealm/Fuke/blob/master/source/Fuke.Common/Tools/WebConfigTransformRunner/WebConfigTransformRunner.json
+// Generated from https://github.com/KoiRealm/Fuke/blob/main/source/Fuke.Common/Tools/WebConfigTransformRunner/WebConfigTransformRunner.json
 
 using JetBrains.Annotations;
 using Newtonsoft.Json;
