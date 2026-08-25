@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NuGet.Packaging;
+using NuGet.Versioning;
 using Fuke.Common;
 using Fuke.Common.CI;
 using Fuke.Common.CI.AppVeyor;
@@ -63,7 +64,21 @@ partial class Build
     AbsolutePath VersionFile => RootDirectory / "Version.props";
 
     const string RepositoryUrl = "https://github.com/KoiRealm/Fuke";
-    string FukeVersion => XmlTasks.XmlPeekSingle(VersionFile, "/Project/PropertyGroup/FukeVersion");
+    string FukeVersion
+    {
+        get
+        {
+            var version = XmlTasks.XmlPeekSingle(VersionFile, "/Project/PropertyGroup/FukeVersion");
+            NuGetVersion.Parse(version);
+
+            var coreVersion = version.Split(new[] { '-', '+' }, count: 2)[0];
+            Assert.True(
+                coreVersion.Split('.').Length == 3,
+                $"FUKE 版本必须使用 SemVer 的 MAJOR.MINOR.PATCH 格式：{version}");
+
+            return version;
+        }
+    }
     string IHazChangelog.NuGetReleaseNotes =>
         $"{Fuke.Common.ChangeLog.ChangelogTasks.GetNuGetReleaseNotes(((IHazChangelog)this).ChangelogFile)}" +
         $"{Environment.NewLine}{Environment.NewLine}Full changelog at {RepositoryUrl}/blob/{MainBranch}/CHANGELOG.md";

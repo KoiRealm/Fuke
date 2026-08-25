@@ -7,7 +7,7 @@ FUKE 是一个用于构建和部署的 .NET 工具，用于自动化 .NET 以及
 ## 安装方法
 
 ```powershell
-dotnet tool install --global Fuke.GlobalTool --version 0.0.0.1
+dotnet tool install --global Fuke.GlobalTool --version 0.1.0
 ```
 
 安装完成后可在任意目录运行检查运行状态：
