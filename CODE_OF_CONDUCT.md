@@ -1,76 +1,21 @@
-# Contributor Covenant Code of Conduct
+# FUKE 社区行为准则
 
-## Our Pledge
+FUKE 致力于为所有参与者提供开放、友善且专业的协作环境。
 
-In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to making participation in our project and
-our community a harassment-free experience for everyone, regardless of age, body
-size, disability, ethnicity, sex characteristics, gender identity and expression,
-level of experience, education, socio-economic status, nationality, personal
-appearance, race, religion, or sexual identity and orientation.
+## 基本要求
 
-## Our Standards
+- 尊重不同的观点、经验与背景，使用友善、包容的语言。
+- 围绕技术事实讨论问题，理性接受并提出建设性意见。
+- 保护他人隐私，不公开未经许可的个人信息。
+- 不得骚扰、侮辱、威胁他人，或发表歧视性、性暗示及人身攻击内容。
+- 不得通过恶意干扰、刷屏或煽动冲突破坏项目协作。
 
-Examples of behavior that contributes to creating a positive environment
-include:
+## 适用范围与处理
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+本准则适用于 FUKE 仓库及代表本项目参与的公开活动。维护者可以编辑或删除不当内容、拒绝不符合准则的贡献，并视情况暂时或永久限制相关人员参与项目。
 
-Examples of unacceptable behavior by participants include:
+如需反馈违反准则的行为，请通过 [FUKE Issues](https://github.com/KoiRealm/Fuke/issues) 提交，并避免公开与事件无关的个人信息。维护者将根据具体情况进行审查和处理。
 
-* The use of sexualized language or imagery and unwelcome sexual attention or
-  advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or electronic
-  address, without explicit permission
-* Other conduct which could reasonably be considered inappropriate in a
-  professional setting
+## 来源
 
-## Our Responsibilities
-
-Project maintainers are responsible for clarifying the standards of acceptable
-behavior and are expected to take appropriate and fair corrective action in
-response to any instances of unacceptable behavior.
-
-Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions
-that are not aligned to this Code of Conduct, or to ban temporarily or
-permanently any contributor for other behaviors that they deem inappropriate,
-threatening, offensive, or harmful.
-
-## Scope
-
-This Code of Conduct applies both within project spaces and in public spaces
-when an individual is representing the project or its community. Examples of
-representing a project or community include using an official project e-mail
-address, posting via an official social media account, or acting as an appointed
-representative at an online or offline event. Representation of a project may be
-further defined and clarified by project maintainers.
-
-## Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting [Matthias Koch](mailto:ithrowexceptions@gmail.com). All
-complaints will be reviewed and investigated and will result in a response that
-is deemed necessary and appropriate to the circumstances. The project team is
-obligated to maintain confidentiality with regard to the reporter of an incident.
-Further details of specific enforcement policies may be posted separately.
-
-Project maintainers who do not follow or enforce the Code of Conduct in good
-faith may face temporary or permanent repercussions as determined by other
-members of the project's leadership.
-
-## Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
-available at https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-
-[homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see
-https://www.contributor-covenant.org/faq
+本准则参考 [Contributor Covenant 1.4](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html) 编写。
