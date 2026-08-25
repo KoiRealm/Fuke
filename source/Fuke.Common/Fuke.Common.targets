@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup Condition="'$(FukeTasksDirectory)' == ''">
+    <FukeTasksDirectory Condition="'$(MSBuildRuntimeType)' == 'Core'">$(MSBuildThisFileDirectory)\netcore</FukeTasksDirectory>
+    <FukeTasksDirectory Condition="'$(MSBuildRuntimeType)' != 'Core'">$(MSBuildThisFileDirectory)\netfx</FukeTasksDirectory>
+  </PropertyGroup>
+
+  <Import Project="$(FukeTasksDirectory)\Fuke.MSBuildTasks.targets" Condition="'$(FukeTasksEnabled)' != 'False'" />
+
+  <PropertyGroup>
+    <FukeScriptDirectory Condition="'$(FukeScriptDirectory)' == ''">$(FukeRootDirectory)</FukeScriptDirectory>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(FukeDefaultExcludes)' != 'False'">
+    <None Remove="*.csproj.DotSettings;.editorconfig;Directory.Build.props;Directory.Build.targets" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FukeScriptDirectory)' != '' And '$(FukeExcludeBoot)' != 'True'">
+    <None Include="$(FukeScriptDirectory)\build.cmd" LinkBase="boot" Condition="Exists('$(FukeScriptDirectory)\build.cmd')" />
+    <None Include="$(FukeScriptDirectory)\build.ps1" LinkBase="boot" Condition="Exists('$(FukeScriptDirectory)\build.ps1')" />
+    <None Include="$(FukeScriptDirectory)\build.sh" LinkBase="boot" Condition="Exists('$(FukeScriptDirectory)\build.sh')" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FukeRootDirectory)' != '' And '$(FukeExcludeConfig)' != 'True'">
+    <None Include="$(FukeRootDirectory)\.fuke\parameters.json" LinkBase="config" />
+    <None Include="$(FukeRootDirectory)\.fuke\parameters.*.json" LinkBase="config" />
+    <None Include="$(FukeRootDirectory)\global.json" LinkBase="config" Condition="Exists('$(FukeRootDirectory)\global.json')" />
+    <None Include="$(FukeRootDirectory)\nuget.config" LinkBase="config" Condition="Exists('$(FukeRootDirectory)\nuget.config')" />
+    <None Include="$(FukeRootDirectory)\GitVersion.yml" LinkBase="config" Condition="Exists('$(FukeRootDirectory)\GitVersion.yml')" />
+    <None Include="$(FukeRootDirectory)\version.json" LinkBase="config" Condition="Exists('$(FukeRootDirectory)\version.json')" />
+    <None Include="$(FukeRootDirectory)\qodana.yml" LinkBase="config" Condition="Exists('$(FukeRootDirectory)\qodana.yml')" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FukeRootDirectory)' != '' And '$(FukeExcludeLogs)' != 'True'">
+    <None Include="$(FukeRootDirectory)\.fuke\temp\build*.log" Exclude="$(FukeRootDirectory)\.fuke\temp\build-attempt.log" LinkBase="logs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FukeRootDirectory)' != '' And '$(FukeExcludeDirectoryBuild)' != 'True'">
+    <None Include="$(FukeRootDirectory)\**\Directory.Build.*"
+          Link="Directory.Build\$([MSBuild]::MakeRelative($(MSBuildProjectDirectory)\$(FukeRootDirectory), %(FullPath)))"
+          LinkBase="Directory.Build" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(FukeRootDirectory)' != '' And '$(FukeExcludeCi)' != 'True'">
+    <None Include="$(FukeRootDirectory)\.teamcity\settings.kts" LinkBase="ci" Condition="Exists('$(FukeRootDirectory)\.teamcity\settings.kts')" />
+    <None Include="$(FukeRootDirectory)\.github\workflows\*.yml" LinkBase="ci" />
+    <None Include="$(FukeRootDirectory)\azure-pipelines*.yml" LinkBase="ci" />
+    <None Include="$(FukeRootDirectory)\Jenkinsfile" LinkBase="ci" Condition="Exists('$(FukeRootDirectory)\Jenkinsfile')" />
+    <None Include="$(FukeRootDirectory)\appveyor*.yml" LinkBase="ci" />
+    <None Include="$(FukeRootDirectory)\.travis.yml" LinkBase="ci" Condition="Exists('$(FukeRootDirectory)\.travis.yml')" />
+    <None Include="$(FukeRootDirectory)\bamboo-specs\bamboo.yml" LinkBase="ci" Condition="Exists('$(FukeRootDirectory)\bamboo-specs\bamboo.yml')" />
+    <None Include="$(FukeRootDirectory)\bamboo-specs\bamboo.yaml" LinkBase="ci" Condition="Exists('$(FukeRootDirectory)\bamboo-specs\bamboo.yaml')" />
+    <None Include="$(FukeRootDirectory)\.gitlab-ci.yml" LinkBase="ci" Condition="Exists('$(FukeRootDirectory)\.gitlab-ci.yml')" />
+    <None Include="$(FukeRootDirectory)\.space.kts" LinkBase="ci" Condition="Exists('$(FukeRootDirectory)\.space.kts')" />
+  </ItemGroup>
+
+</Project>

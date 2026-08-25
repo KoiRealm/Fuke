@@ -1,0 +1,88 @@
+name: 🐞 缺陷报告
+description: "报告行为异常或结果不符合预期的问题。"
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你花时间提交缺陷报告！
+        
+        提交前请先阅读仓库中的贡献指南，并确认问题可以在当前 Fuke 版本中复现。
+
+  - type: input
+    id: usage-information
+    attributes:
+      label: 环境信息
+      description: Fuke 版本 / SDK 版本 / 目标框架 / 操作系统
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      description: 请清晰、简洁地说明遇到的问题。
+      placeholder: 请描述问题
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 复现步骤
+      description: |
+        请尽量提供最小复现步骤，例如最小代码片段或可运行的小型项目。日志和异常堆栈请粘贴为文本，不要只提供截图。
+      placeholder: 最小复现步骤
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 预期行为
+      description: |
+        请说明你预期看到的行为。
+      placeholder: 预期行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: 实际行为
+      description: |
+        请说明实际观察到的行为；如有错误消息或异常堆栈，请一并提供。
+      placeholder: 实际行为
+    validations:
+      required: true
+
+  - type: textarea
+    id: regression
+    attributes:
+      label: 是否为回归问题？
+      description: |
+        该功能是否在旧版 Fuke 中正常？如能确认具体版本，将有助于缩小排查范围；不确定也可以留空。
+      placeholder: 请填写最后一个正常版本
+    validations:
+      required: false
+
+  - type: textarea
+    id: known-workarounds
+    attributes:
+      label: 已知临时解决方法
+      description: |
+        如果存在临时解决方法，请在此说明。
+      placeholder: 临时解决方法
+    validations:
+      required: false
+
+  - type: dropdown
+    id: pull-request
+    attributes:
+      label: 你是否愿意提交修复？
+      description: 如果愿意，请先阅读本仓库的贡献指南。
+      options:
+        - "否"
+        - "是"
+    validations:
+      required: true

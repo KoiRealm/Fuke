@@ -1,0 +1,45 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System;
+using System.Linq;
+
+namespace Fuke.Common.Tooling;
+
+public interface IRequireTool;
+public interface IRequireToolWithVersion;
+
+
+public interface IRequirePathTool : IRequireTool;
+
+public interface IRequireNuGetPackage : IRequireTool, IRequireToolWithVersion;
+
+public interface IRequireNpmPackage : IRequireTool, IRequireToolWithVersion;
+
+public interface IRequireAptGetPackage : IRequireTool;
+
+
+public class ToolRequirement;
+
+public class PathToolRequirement(string pathExecutable) : ToolRequirement
+{
+    public string PathExecutable { get; init; } = pathExecutable;
+}
+
+public class NuGetPackageRequirement(string packageId, string version = null) : ToolRequirement
+{
+    public string PackageId { get; init; } = packageId;
+    public string Version { get; init; } = version ?? NuGetVersionResolver.GetLatestVersion(packageId, includePrereleases: false).GetAwaiter().GetResult();
+}
+
+public class NpmPackageRequirement(string packageId, string version = null) : ToolRequirement
+{
+    public string PackageId { get; init; } = packageId;
+    public string Version { get; init; } = version ?? NpmVersionResolver.GetLatestVersion(packageId).GetAwaiter().GetResult();
+}
+
+public class AptGetPackageRequirement(string packageId) : ToolRequirement
+{
+    public string PackageId { get; init; } = packageId;
+}

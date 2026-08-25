@@ -1,0 +1,23 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System;
+using System.Linq;
+
+namespace Fuke.Common.Tooling;
+
+partial class OptionsExtensions
+{
+    public static T When<T>(this T options, Func<T, bool> condition, Configure<T> configurator)
+        where T : Options, new()
+    {
+        return condition.Invoke(options) ? options.Apply(configurator) : options;
+    }
+
+    public static T[] When<T>(this T[] options, Func<T, bool> condition, Configure<T> configurator)
+        where T : Options, new()
+    {
+        return options.Select(x => condition(x) ? x.Apply(configurator) : x).ToArray();
+    }
+}

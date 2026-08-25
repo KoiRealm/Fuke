@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fuke.Build.Shared\Fuke.Build.Shared.csproj" />
+    <ProjectReference Include="..\Fuke.SolutionModel\Fuke.SolutionModel.csproj" />
+  </ItemGroup>
+
+</Project>

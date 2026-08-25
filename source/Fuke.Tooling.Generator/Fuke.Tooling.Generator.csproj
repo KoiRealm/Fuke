@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Fuke.CodeGeneration</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="Humanizer" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="System.ComponentModel.Annotations" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fuke.Tooling\Fuke.Tooling.csproj" />
+    <ProjectReference Include="..\Fuke.Utilities\Fuke.Utilities.csproj" />
+    <ProjectReference Include="..\Fuke.Utilities.Net\Fuke.Utilities.Net.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Fuke Include="..\..\build\Build.CodeGeneration.cs" />
+  </ItemGroup>
+
+</Project>

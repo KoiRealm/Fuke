@@ -1,0 +1,28 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Fuke.Common.Utilities.Collections;
+
+public static partial class EnumerableExtensions
+{
+    /// <summary>
+    /// Takes elements until the condition is <c>false</c>.
+    /// </summary>
+    public static IEnumerable<T> TakeUntil<T>(this IEnumerable<T> enumerable, Func<T, bool> condition)
+    {
+        return enumerable.TakeWhile(x => !condition(x));
+    }
+
+    /// <summary>
+    /// Skips elements until the condition is <c>false</c>.
+    /// </summary>
+    public static IEnumerable<T> SkipUntil<T>(this IEnumerable<T> enumerable, Func<T, bool> condition)
+    {
+        return enumerable.SkipWhile(x => !condition(x));
+    }
+}

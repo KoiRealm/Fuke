@@ -1,0 +1,13 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System;
+using System.Linq;
+
+namespace Fuke.CodeGeneration.Model;
+
+internal static class RegexPatterns
+{
+    public const string Name = "^[0-9A-Z][A-Za-z0-9]*$";
+}

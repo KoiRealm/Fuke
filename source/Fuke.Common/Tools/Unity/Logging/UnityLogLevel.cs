@@ -1,0 +1,16 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System;
+using System.Linq;
+
+namespace Fuke.Common.Tools.Unity.Logging;
+
+public enum LogLevel
+{
+    Normal,
+    Warning,
+    Failure,
+    Error
+}

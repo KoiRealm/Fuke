@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fuke.Build.Shared\Fuke.Build.Shared.csproj" />
+    <ProjectReference Include="..\Fuke.Utilities\Fuke.Utilities.csproj" />
+    <ProjectReference Include="..\Fuke.Utilities.IO.Compression\Fuke.Utilities.IO.Compression.csproj" />
+    <ProjectReference Include="..\Fuke.Utilities.Text.Json\Fuke.Utilities.Text.Json.csproj" />
+    <ProjectReference Include="..\Fuke.Utilities.Text.Yaml\Fuke.Utilities.Text.Yaml.csproj" />
+  </ItemGroup>
+
+</Project>

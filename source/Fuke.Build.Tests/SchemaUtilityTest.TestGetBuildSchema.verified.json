@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/build",
+  "title": "Build Schema",
+  "definitions": {
+    "build": {
+      "type": "object",
+      "properties": {
+        "BooleanParam": {
+          "type": "boolean"
+        },
+        "ComplexTypeArrayParam": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ComplexTypeParam": {
+          "type": "string"
+        },
+        "ComponentInheritedParam": {
+          "type": "string"
+        },
+        "Continue": {
+          "type": "boolean",
+          "description": "继续上一次失败的构建。"
+        },
+        "CustomEnumerationArrayParam": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Debug",
+              "Release"
+            ]
+          }
+        },
+        "CustomEnumerationParam": {
+          "type": "string",
+          "enum": [
+            "Debug",
+            "Release"
+          ]
+        },
+        "Help": {
+          "type": "boolean",
+          "description": "显示此构建程序集的帮助文本。"
+        },
+        "Host": {
+          "type": "string",
+          "description": "执行主机。默认为“automatic”。"
+        },
+        "IntegerArrayParam": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "NoLogo": {
+          "type": "boolean",
+          "description": "禁止显示 FUKE 标志。"
+        },
+        "NullableBooleanParam": {
+          "type": "boolean"
+        },
+        "Partition": {
+          "type": "string",
+          "description": "CI 上使用的分区。"
+        },
+        "Plan": {
+          "type": "boolean",
+          "description": "显示执行计划（HTML）。"
+        },
+        "Profile": {
+          "type": "array",
+          "description": "指定要加载的配置文件。",
+          "items": {
+            "type": "string"
+          }
+        },
+        "RegularParam": {
+          "type": "string"
+        },
+        "Root": {
+          "type": "string",
+          "description": "构建执行期间的根目录。"
+        },
+        "SecretParam": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "Skip": {
+          "type": "array",
+          "description": "要跳过的目标列表。空列表将跳过所有依赖项。",
+          "items": {
+            "type": "string"
+          }
+        },
+        "StringArrayParam": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Target": {
+          "type": "array",
+          "description": "要调用的目标列表。默认为“{default_target}”。",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Verbosity": {
+          "type": "string",
+          "description": "构建执行期间的日志详细程度。默认为“Normal”。",
+          "enum": [
+            "Minimal",
+            "Normal",
+            "Quiet",
+            "Verbose"
+          ]
+        }
+      }
+    }
+  }
+}

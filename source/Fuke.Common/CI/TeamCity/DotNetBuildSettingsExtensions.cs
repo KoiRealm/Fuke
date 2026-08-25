@@ -1,0 +1,28 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System;
+using System.Linq;
+using JetBrains.Annotations;
+using Fuke.Common.Tooling;
+using Fuke.Common.Tools.DotNet;
+
+namespace Fuke.Common.CI.TeamCity;
+
+[PublicAPI]
+public static class DotNetBuildSettingsExtensions
+{
+    public static DotNetBuildSettings AddTeamCityLogger(this DotNetBuildSettings toolSettings)
+    {
+        Assert.True(TeamCity.Instance != null);
+        var teamcityPackage = NuGetPackageResolver
+            .GetLocalInstalledPackage("TeamCity.Dotnet.Integration", NuGetToolPathResolver.NuGetPackagesConfigFile)
+            .NotNull("teamcityPackage != null");
+        var loggerAssembly = teamcityPackage.Directory / "build" / "_common" / "msbuild15" / "TeamCity.MSBuild.Logger.dll";
+        Assert.FileExists(loggerAssembly);
+        return toolSettings
+            .AddLoggers($"TeamCity.MSBuild.Logger.TeamCityMSBuildLogger,{loggerAssembly};teamcity")
+            .EnableNoConsoleLogger();
+    }
+}

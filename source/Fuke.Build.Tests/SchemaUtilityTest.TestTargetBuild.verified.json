@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "Host": {
+      "type": "string",
+      "enum": [
+        "Rider",
+        "Terminal",
+        "VisualStudio",
+        "VSCode"
+      ]
+    },
+    "ExecutableTarget": {
+      "type": "string",
+      "enum": [
+        "ExplicitTarget",
+        "ImplementedTarget",
+        "InheritedTarget",
+        "RegularTarget"
+      ]
+    },
+    "Verbosity": {
+      "type": "string",
+      "description": "",
+      "enum": [
+        "Verbose",
+        "Normal",
+        "Minimal",
+        "Quiet"
+      ]
+    },
+    "FukeBuild": {
+      "properties": {
+        "Continue": {
+          "type": "boolean",
+          "description": "继续上一次失败的构建。"
+        },
+        "Help": {
+          "type": "boolean",
+          "description": "显示此构建程序集的帮助文本。"
+        },
+        "Host": {
+          "description": "执行主机。默认为“automatic”。",
+          "$ref": "#/definitions/Host"
+        },
+        "NoLogo": {
+          "type": "boolean",
+          "description": "禁止显示 FUKE 标志。"
+        },
+        "Partition": {
+          "type": "string",
+          "description": "CI 上使用的分区。"
+        },
+        "Plan": {
+          "type": "boolean",
+          "description": "显示执行计划（HTML）。"
+        },
+        "Profile": {
+          "type": "array",
+          "description": "指定要加载的配置文件。",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Root": {
+          "type": "string",
+          "description": "构建执行期间的根目录。"
+        },
+        "Skip": {
+          "type": "array",
+          "description": "要跳过的目标列表。空列表将跳过所有依赖项。",
+          "items": {
+            "$ref": "#/definitions/ExecutableTarget"
+          }
+        },
+        "Target": {
+          "type": "array",
+          "description": "要调用的目标列表。默认为“{default_target}”。",
+          "items": {
+            "$ref": "#/definitions/ExecutableTarget"
+          }
+        },
+        "Verbosity": {
+          "description": "构建执行期间的日志详细程度。默认为“Normal”。",
+          "$ref": "#/definitions/Verbosity"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {},
+    {
+      "$ref": "#/definitions/FukeBuild"
+    }
+  ]
+}

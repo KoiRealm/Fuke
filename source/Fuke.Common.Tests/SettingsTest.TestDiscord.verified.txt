@@ -1,0 +1,12 @@
+{
+  "nonce": "nonce",
+  "channel_id": "channel-id",
+  "embeds": [
+    {
+      "type": "article",
+      "author": {
+        "name": "author-name"
+      }
+    }
+  ]
+}

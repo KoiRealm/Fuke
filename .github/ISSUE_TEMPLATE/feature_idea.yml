@@ -1,0 +1,38 @@
+name: 💡 功能建议
+description: "为 Fuke 提议新功能或改进方向。"
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你花时间提交功能建议！
+        
+        提交前请先阅读本仓库的贡献指南，并确认现有功能尚未覆盖该需求。
+
+  - type: textarea
+    attributes:
+      label: 功能描述
+      description: 新功能应解决什么问题、实现什么行为？
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 使用示例
+      description: 请说明该功能预期如何使用。
+
+  - type: textarea
+    attributes:
+      label: 当前替代方案
+      description: 目前可以如何解决该问题？现有方案有哪些不足？
+
+  - type: dropdown
+    id: pull-request
+    attributes:
+      label: 你是否愿意提交实现？
+      description: 如果愿意，请先阅读本仓库的贡献指南。
+      options:
+        - "否"
+        - "是"
+    validations:
+      required: true

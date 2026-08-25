@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <FukeVersion>0.0.0.1</FukeVersion>
+    <Version>$(FukeVersion)</Version>
+    <PackageVersion>$(FukeVersion)</PackageVersion>
+    <AssemblyVersion>$(FukeVersion)</AssemblyVersion>
+    <FileVersion>$(FukeVersion)</FileVersion>
+    <InformationalVersion>$(FukeVersion)</InformationalVersion>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FukeTasksAssembly>$(MSBuildThisFileDirectory)\$(MSBuildThisFileName).dll</FukeTasksAssembly>
+  </PropertyGroup>
+
+  <UsingTask TaskName="$(MSBuildThisFileName).CodeGenerationTask" AssemblyFile="$(FukeTasksAssembly)" />
+  <UsingTask TaskName="$(MSBuildThisFileName).ExternalFilesTask" AssemblyFile="$(FukeTasksAssembly)" />
+  <UsingTask TaskName="$(MSBuildThisFileName).PackPackageToolsTask" AssemblyFile="$(FukeTasksAssembly)" />
+  <UsingTask TaskName="$(MSBuildThisFileName).EmbedPackagesForSelfContainedTask" AssemblyFile="$(FukeTasksAssembly)" />
+
+  <PropertyGroup>
+    <FukeContinueOnError Condition="'$(FukeContinueOnError)' == ''">False</FukeContinueOnError>
+    <FukeTaskTimeout Condition="'$(FukeTimeout)' == ''">5000</FukeTaskTimeout>
+
+    <FukeBaseDirectory Condition="'$(FukeBaseDirectory)' == ''">$(MSBuildProjectDirectory)</FukeBaseDirectory>
+    <FukeUseNestedNamespaces Condition="'$(FukeUseNestedNamespaces)' == ''">False</FukeUseNestedNamespaces>
+    <FukeRepositoryUrl Condition="'$(FukeRepositoryUrl)' == ''">$(RepositoryUrl)</FukeRepositoryUrl>
+    <FukeUpdateReferences Condition="'$(FukeUpdateReferences)' == ''">True</FukeUpdateReferences>
+  </PropertyGroup>
+
+  <Target Name="FukeExternalFiles" BeforeTargets="Restore" Condition="'@(FukeExternalFiles)' != ''">
+    <Error Text="已不再支持外部文件；请改为将文件包含在项目或包中。" />
+  </Target>
+
+  <Target Name="FukePackPackageTools" BeforeTargets="GenerateNuspec" Condition="'$(PackAsTool)' == 'True'">
+    <PackPackageToolsTask
+      TargetFramework="$(TargetFramework)"
+      ProjectAssetsFile="$(ProjectAssetsFile)"
+      NuGetPackageRoot="$(NuGetPackageRoot)">
+      <Output TaskParameter="TargetOutputs" ItemName="_PackageToolFiles" />
+    </PackPackageToolsTask>
+    <ItemGroup>
+      <_PackageFiles Include="@(_PackageToolFiles)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="FukeEmbedPackagesForSelfContained" BeforeTargets="PrepareForBuild" Condition="'$(SelfContained)' == 'True' AND '$(PublishSingleFile)' == 'True'">
+    <EmbedPackagesForSelfContainedTask
+      TargetFramework="$(TargetFramework)"
+      ProjectAssetsFile="$(ProjectAssetsFile)">
+      <Output TaskParameter="TargetOutputs" ItemName="_PackageEmbeddedResources" />
+    </EmbedPackagesForSelfContainedTask>
+    <ItemGroup>
+      <EmbeddedResource Include="@(_PackageEmbeddedResources)" />
+    </ItemGroup>
+  </Target>
+
+  <Target Name="FukeCodeGeneration" BeforeTargets="CoreCompile" Condition="'@(FukeSpecificationFiles)' != ''">
+    <CodeGenerationTask
+      SpecificationFiles="@(FukeSpecificationFiles)"
+      BaseDirectory="$(FukeBaseDirectory)"
+      UseNestedNamespaces="$(FukeUseNestedNamespaces)"
+      BaseNamespace="$(FukeBaseNamespace)"
+      UpdateReferences="$(FukeUpdateReferences)"/>
+  </Target>
+
+</Project>

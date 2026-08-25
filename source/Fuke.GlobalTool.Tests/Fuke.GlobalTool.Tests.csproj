@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fuke.Common\Fuke.Common.csproj" />
+    <ProjectReference Include="..\Fuke.GlobalTool\Fuke.GlobalTool.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="cake-scripts\*" />
+    <None Include="cake-scripts\*" />
+  </ItemGroup>
+
+</Project>

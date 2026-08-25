@@ -1,0 +1,18 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Fuke.Common.Utilities.Collections;
+
+public static partial class EnumerableExtensions
+{
+    public static bool SequenceStartsWith<T>(this IEnumerable<T> enumerable, IEnumerable<T> other, IEqualityComparer<T> comparer = null)
+    {
+        var enumerableList = enumerable as List<T> ?? enumerable.ToList();
+        var otherList = other as List<T> ?? other.ToList();
+        return enumerableList.Take(otherList.Count).SequenceEqual(otherList, comparer);
+    }
+}

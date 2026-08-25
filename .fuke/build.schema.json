@@ -1,0 +1,243 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "Host": {
+      "type": "string",
+      "enum": [
+        "AppVeyor",
+        "AzurePipelines",
+        "Bamboo",
+        "Bitbucket",
+        "Bitrise",
+        "GitHubActions",
+        "GitLab",
+        "Jenkins",
+        "Rider",
+        "SpaceAutomation",
+        "TeamCity",
+        "Terminal",
+        "TravisCI",
+        "VisualStudio",
+        "VSCode"
+      ]
+    },
+    "SignPathSettings": {
+      "type": "object",
+      "properties": {
+        "OrganizationId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ProjectSlug": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "PolicySlug": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    },
+    "ExecutableTarget": {
+      "type": "string",
+      "enum": [
+        "Announce",
+        "AnnounceDiscord",
+        "AnnounceMastodon",
+        "AnnounceSlack",
+        "AnnounceTwitter",
+        "Changelog",
+        "CheckoutExternalRepositories",
+        "Clean",
+        "Compile",
+        "CreateGitHubRelease",
+        "DeletePackages",
+        "DownloadLicenses",
+        "GeneratePublicApi",
+        "GenerateTools",
+        "Hotfix",
+        "Install",
+        "InstallFonts",
+        "Milestone",
+        "Pack",
+        "Publish",
+        "References",
+        "Release",
+        "ReleaseImage",
+        "ReportCoverage",
+        "ReportDuplicates",
+        "ReportIssues",
+        "Restore",
+        "RunTargetInDockerImageTest",
+        "SignPackages",
+        "Test",
+        "UpdateContributors",
+        "UpdateStargazers"
+      ]
+    },
+    "Verbosity": {
+      "type": "string",
+      "description": "",
+      "enum": [
+        "Verbose",
+        "Normal",
+        "Minimal",
+        "Quiet"
+      ]
+    },
+    "FukeBuild": {
+      "properties": {
+        "Continue": {
+          "type": "boolean",
+          "description": "继续上一次失败的构建。"
+        },
+        "Help": {
+          "type": "boolean",
+          "description": "显示此构建程序集的帮助文本。"
+        },
+        "Host": {
+          "description": "执行主机。默认为“automatic”。",
+          "$ref": "#/definitions/Host"
+        },
+        "NoLogo": {
+          "type": "boolean",
+          "description": "禁止显示 FUKE 标志。"
+        },
+        "Partition": {
+          "type": "string",
+          "description": "CI 上使用的分区。"
+        },
+        "Plan": {
+          "type": "boolean",
+          "description": "显示执行计划（HTML）。"
+        },
+        "Profile": {
+          "type": "array",
+          "description": "指定要加载的配置文件。",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Root": {
+          "type": "string",
+          "description": "构建执行期间的根目录。"
+        },
+        "Skip": {
+          "type": "array",
+          "description": "要跳过的目标列表。空列表将跳过所有依赖项。",
+          "items": {
+            "$ref": "#/definitions/ExecutableTarget"
+          }
+        },
+        "Target": {
+          "type": "array",
+          "description": "要调用的目标列表。默认为“{default_target}”。",
+          "items": {
+            "$ref": "#/definitions/ExecutableTarget"
+          }
+        },
+        "Verbosity": {
+          "description": "构建执行期间的日志详细程度。默认为“Normal”。",
+          "$ref": "#/definitions/Verbosity"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "AutoStash": {
+          "type": "boolean"
+        },
+        "CodecovToken": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "Configuration": {
+          "type": "string",
+          "enum": [
+            "Debug",
+            "Release"
+          ]
+        },
+        "DiscordWebhook": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "GitHubReleaseGitHubToken": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "IgnoreFailedSources": {
+          "type": "boolean",
+          "description": "在 Restore 期间忽略无法访问的源"
+        },
+        "MastodonAccessToken": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "PrereleaseNuGetApiKey": {
+          "type": "string",
+          "description": "发布预发行包所需的 NuGet API 密钥",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "PrereleaseNuGetSource": {
+          "type": "string",
+          "description": "预发行包的 NuGet 源；非正式发布时必须显式指定"
+        },
+        "PublicNuGetApiKey": {
+          "type": "string",
+          "description": "发布正式包所需的 NuGet API 密钥",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "SignPathApiToken": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "SignPathSettings": {
+          "$ref": "#/definitions/SignPathSettings"
+        },
+        "SlackWebhook": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "Solution": {
+          "type": "string",
+          "description": "要自动加载的解决方案文件路径。"
+        },
+        "TestDegreeOfParallelism": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "TwitterAccessToken": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "TwitterAccessTokenSecret": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "TwitterConsumerKey": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "TwitterConsumerSecret": {
+          "type": "string",
+          "default": "请通过“fuke :secrets [profile]”输入密钥"
+        },
+        "UseHttps": {
+          "type": "boolean"
+        }
+      }
+    },
+    {
+      "$ref": "#/definitions/FukeBuild"
+    }
+  ]
+}

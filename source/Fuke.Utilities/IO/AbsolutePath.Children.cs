@@ -1,0 +1,64 @@
+// Copyright 2026 KoiRealm and Fuke contributors.
+// Distributed under the MIT License.
+// See LICENSE in the repository root.
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Fuke.Common.Utilities.Collections;
+
+namespace Fuke.Common.IO;
+
+partial class AbsolutePathExtensions
+{
+    /// <summary>
+    /// Returns all files below the directory.
+    /// </summary>
+    public static IEnumerable<AbsolutePath> GetFiles(
+        this AbsolutePath path,
+        string pattern = "*",
+        int depth = 1,
+        FileAttributes attributes = 0)
+    {
+        Assert.True(depth >= 0);
+
+        if (depth == 0)
+            return Enumerable.Empty<AbsolutePath>();
+
+        var files = Directory.EnumerateFiles(path, pattern, SearchOption.TopDirectoryOnly)
+            .Where(x => (File.GetAttributes(x) & attributes) == attributes)
+            .OrderBy(x => x)
+            .Select(AbsolutePath.Create);
+
+        return files.Concat(path.GetDirectories(depth: depth - 1).SelectMany(x => x.GetFiles(pattern, attributes: attributes)));
+    }
+
+    /// <summary>
+    /// Returns all directories below the directory.
+    /// </summary>
+    public static IEnumerable<AbsolutePath> GetDirectories(
+        this AbsolutePath path,
+        string pattern = "*",
+        int depth = 1,
+        FileAttributes attributes = 0)
+    {
+        Assert.True(depth >= 0);
+
+        var paths = new string[] { path };
+        while (!paths.IsEmpty() && depth > 0)
+        {
+            var matchingDirectories = paths
+                .SelectMany(x => Directory.EnumerateDirectories(x, pattern, SearchOption.TopDirectoryOnly))
+                .Where(x => (File.GetAttributes(x) & attributes) == attributes)
+                .OrderBy(x => x)
+                .Select(AbsolutePath.Create).ToList();
+
+            foreach (var matchingDirectory in matchingDirectories)
+                yield return matchingDirectory;
+
+            depth--;
+            paths = paths.SelectMany(x => Directory.GetDirectories(x, "*", SearchOption.TopDirectoryOnly)).ToArray();
+        }
+    }
+}

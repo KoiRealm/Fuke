@@ -1,0 +1,19 @@
+workflow: GitFlow/v1
+mode: ContinuousDelivery
+
+assembly-versioning-scheme: MajorMinor
+assembly-file-versioning-scheme: MajorMinorPatch
+
+branches:
+  main:
+    regex: ^master$
+    label: ''
+  develop:
+    regex: ^develop$
+    label: alpha
+  release:
+    regex: ^releases?[/-]
+    label: beta
+
+ignore:
+  sha: []

@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\Version.props" />
+  <Import Project="..\source\Fuke.Common\Fuke.Common.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <RootNamespace></RootNamespace>
+    <NoWarn>CS0649;CS0169</NoWarn>
+    <FukeRootDirectory>.\..</FukeRootDirectory>
+    <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!-- Test properties for MSBuild integration -->
+  <PropertyGroup>
+    <FukeTasksEnabled Condition="'$(FukeTasksEnabled)' == ''">False</FukeTasksEnabled>
+    <FukeTasksDirectory>$(MSBuildThisFileDirectory)\..\source\Fuke.MSBuildTasks\bin\Debug\net8.0\publish</FukeTasksDirectory>
+
+<!--    <PackAsTool>True</PackAsTool>-->
+<!--    <ToolCommandName>build</ToolCommandName>-->
+
+<!--    <PublishSingleFile>True</PublishSingleFile>-->
+<!--    <SelfContained>True</SelfContained>-->
+<!--    <RuntimeIdentifier>linux-arm64</RuntimeIdentifier>-->
+<!--    <InvariantGlobalization>True</InvariantGlobalization>-->
+  </PropertyGroup>
+
+  <!-- Test properties for external files -->
+<!--  <ItemGroup>-->
+<!--      <TargetFramework>Bla</TargetFramework>-->
+<!--      <GitVersion />-->
+<!--      <NuGetSource>https://www.myget.org/F/matkoch/api/v2/package</NuGetSource>-->
+<!--      <FukeVersion>9999.0.0</FukeVersion>-->
+<!--    </FukeExternalFiles>-->
+<!--  </ItemGroup>-->
+
+  <!-- Test properties for source generators -->
+<!--  <PropertyGroup>-->
+<!--    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>-->
+<!--    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>-->
+<!--  </PropertyGroup>-->
+<!--  <ItemGroup>-->
+<!--    <PackageReference Include="Fuke.SourceGenerators" Version="1.0.0-beta01" OutputItemType="Analyzer" />-->
+<!--  </ItemGroup>-->
+
+  <PropertyGroup>
+    <DefineConstants>$(Configuration.ToUpper())</DefineConstants>
+    <DefineConstants Condition="'$(OS)' == 'Windows_NT'">$(DefineConstants);WIN</DefineConstants>
+    <DefineConstants Condition="'$(OS)' != 'Windows_NT'">$(DefineConstants);UNIX</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="linqtotwitter" Version="6.15.0" />
+    <PackageReference Include="MQTTnet" Version="5.2.0.1603" />
+    <!-- 3.x requires a paid Six Labors license; 2.1.7 is the newest compatible OSS release. -->
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
+    <PackageDownload Include="Codecov.Tool" Version="[1.13.0]" />
+    <PackageDownload Include="GitVersion.Tool" Version="[6.8.2]" />
+    <PackageDownload Include="JetBrains.ReSharper.GlobalTools" Version="[2026.2.1]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.5.11]" />
+    <!-- Compatibility fixture for the public xUnit v2 tool wrapper; repository tests run on xUnit v3. -->
+    <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\source\Fuke.Components\Fuke.Components.csproj" />
+    <ProjectReference Include="..\source\Fuke.Tooling.Generator\Fuke.Tooling.Generator.csproj" />
+    <ProjectReference Include="..\source\Fuke.SourceGenerators\Fuke.SourceGenerators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+  </ItemGroup>
+
+  <Import Project="..\source\Fuke.Common\Fuke.Common.targets" />
+
+</Project>
