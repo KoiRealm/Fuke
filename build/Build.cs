@@ -23,6 +23,7 @@ using Fuke.Common.Tools.GitHub;
 using Fuke.Common.Utilities;
 using Fuke.Components;
 using static Fuke.Common.ControlFlow;
+using static Fuke.Common.ToolLocalization;
 using static Fuke.Common.Tools.DotNet.DotNetTasks;
 using static Fuke.Common.Tools.ReSharper.ReSharperTasks;
 
@@ -74,7 +75,9 @@ partial class Build
             var coreVersion = version.Split(new[] { '-', '+' }, count: 2)[0];
             Assert.True(
                 coreVersion.Split('.').Length == 3,
-                $"FUKE 版本必须使用 SemVer 的 MAJOR.MINOR.PATCH 格式：{version}");
+                GetText(
+                    $"FUKE versions must use the SemVer MAJOR.MINOR.PATCH format: {version}",
+                    $"FUKE 版本必须使用 SemVer 的 MAJOR.MINOR.PATCH 格式：{version}"));
 
             return version;
         }
@@ -141,14 +144,14 @@ partial class Build
 
     string PublicNuGetSource => "https://api.nuget.org/v3/index.json";
 
-    [Parameter("发布正式包所需的 NuGet API 密钥")] [Secret] readonly string PublicNuGetApiKey;
-    [Parameter("预发行包的 NuGet 源；非正式发布时必须显式指定")] readonly string PrereleaseNuGetSource;
-    [Parameter("发布预发行包所需的 NuGet API 密钥")] [Secret] readonly string PrereleaseNuGetApiKey;
+    [Parameter("NuGet API key used to publish stable packages.", DescriptionChinese = "发布正式包所需的 NuGet API 密钥")] [Secret] readonly string PublicNuGetApiKey;
+    [Parameter("NuGet source for prerelease packages; it must be specified explicitly for non-stable releases.", DescriptionChinese = "预发行包的 NuGet 源；非正式发布时必须显式指定")] readonly string PrereleaseNuGetSource;
+    [Parameter("NuGet API key used to publish prerelease packages.", DescriptionChinese = "发布预发行包所需的 NuGet API 密钥")] [Secret] readonly string PrereleaseNuGetApiKey;
 
     bool IsPublicRelease => GitRepository.IsOnMainBranch() || GitRepository.IsOnReleaseBranch();
     string IPublish.NuGetSource => IsPublicRelease
         ? PublicNuGetSource
-        : PrereleaseNuGetSource.NotNull("未指定预发行 NuGet 源");
+        : PrereleaseNuGetSource.NotNull(GetText("The prerelease NuGet source was not specified.", "未指定预发行 NuGet 源"));
     string IPublish.NuGetApiKey => IsPublicRelease
         ? PublicNuGetApiKey
         : PrereleaseNuGetApiKey;
@@ -178,7 +181,7 @@ partial class Build
             {
                 void DeletePackage(string id, string version)
                     => DotNet(
-                        $"nuget delete {id} {version} --source {PrereleaseNuGetSource.NotNull("未指定预发行 NuGet 源")} --api-key {PrereleaseNuGetApiKey} --non-interactive",
+                        $"nuget delete {id} {version} --source {PrereleaseNuGetSource.NotNull(GetText("The prerelease NuGet source was not specified.", "未指定预发行 NuGet 源"))} --api-key {PrereleaseNuGetApiKey} --non-interactive",
                         logOutput: false);
 
                 var packageIds = NuGetPackageFiles.Select(x => new PackageArchiveReader(x).NuspecReader.GetId());

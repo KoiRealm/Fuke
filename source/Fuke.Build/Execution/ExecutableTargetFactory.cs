@@ -94,7 +94,9 @@ internal static class ExecutableTargetFactory
                 .Concat(executable.TriggerDependencies)
                 .Concat(executable.Triggers)
                 .All(x => x != executable),
-            $"目标“{executable.Name}”不能依赖自身");
+            ToolLocalization.L(
+                $"Target '{executable.Name}' cannot depend on itself.",
+                $"目标“{executable.Name}”不能依赖自身"));
 
         if (executable.Factory is Setup)
         {

@@ -84,7 +84,8 @@ public abstract partial class FukeBuild : IFukeBuild
     /// <summary>
     /// Gets the list of targets that were invoked.
     /// </summary>
-    [Parameter("要调用的目标列表。默认为“{default_target}”。",
+    [Parameter("List of targets to invoke. Defaults to '{default_target}'.",
+        DescriptionChinese = "要调用的目标列表。默认为“{default_target}”。",
         Name = InvokedTargetsParameterName,
         Separator = TargetsSeparator)]
     public IReadOnlyCollection<ExecutableTarget> InvokedTargets => ExecutionPlan.Where(x => x.Invoked).ToList();
@@ -92,7 +93,8 @@ public abstract partial class FukeBuild : IFukeBuild
     /// <summary>
     /// Gets the list of targets that are skipped.
     /// </summary>
-    [Parameter("要跳过的目标列表。空列表将跳过所有依赖项。",
+    [Parameter("List of targets to skip. An empty list skips all dependencies.",
+        DescriptionChinese = "要跳过的目标列表。空列表将跳过所有依赖项。",
         Name = SkippedTargetsParameterName,
         Separator = TargetsSeparator)]
     public IReadOnlyCollection<ExecutableTarget> SkippedTargets => ExecutionPlan.Where(x => x.Status == ExecutionStatus.Skipped).ToList();
@@ -130,28 +132,28 @@ public abstract partial class FukeBuild : IFukeBuild
     /// <summary>
     /// Gets a value whether to show the execution plan (HTML).
     /// </summary>
-    [Parameter("显示执行计划（HTML）。")]
+    [Parameter("Show the execution plan as HTML.", DescriptionChinese = "显示执行计划（HTML）。")]
     public bool Plan { get; }
 
     /// <summary>
     /// Gets a value whether to show the help text for this build assembly.
     /// </summary>
-    [Parameter("显示此构建程序集的帮助文本。")]
+    [Parameter("Show help for this build assembly.", DescriptionChinese = "显示此构建程序集的帮助文本。")]
     public bool Help { get; }
 
     /// <summary>
     /// Gets a value whether to display the FUKE logo.
     /// </summary>
-    [Parameter("禁止显示 FUKE 标志。")]
+    [Parameter("Suppress the FUKE header and ASCII logo.", DescriptionChinese = "禁止显示 FUKE 标题与 ASCII 标志。")]
     public bool NoLogo { get; set; }
 
     /// <summary>
     /// Gets a value whether a previous failed build should be continued.
     /// </summary>
-    [Parameter("继续上一次失败的构建。")]
+    [Parameter("Continue the previous failed build.", DescriptionChinese = "继续上一次失败的构建。")]
     public bool Continue { get; internal set; }
 
-    [Parameter("CI 上使用的分区。", List = false)]
+    [Parameter("Partition used on CI.", DescriptionChinese = "CI 上使用的分区。", List = false)]
     public Partition Partition { get; internal set; } = Partition.Single;
 
     [CanBeNull]

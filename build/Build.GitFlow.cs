@@ -11,6 +11,7 @@ using Fuke.Common.Tooling;
 using Fuke.Common.Tools.GitHub;
 using Fuke.Components;
 using NuGet.Versioning;
+using static Fuke.Common.ToolLocalization;
 using Octokit;
 using Serilog;
 using static Fuke.Common.ChangeLog.ChangelogTasks;
@@ -44,7 +45,7 @@ partial class Build
         {
             var changelogFile = From<IHazChangelog>().ChangelogFile;
             FinalizeChangelog(changelogFile, ReleaseVersion, GitRepository);
-            Log.Information("请检查 CHANGELOG.md，然后按任意键继续……");
+            Log.Information(GetText("Review CHANGELOG.md, then press any key to continue ...", "请检查 CHANGELOG.md，然后按任意键继续……"));
             System.Console.ReadKey();
 
             Git($"add {changelogFile}");
@@ -70,7 +71,9 @@ partial class Build
         .Executes(() =>
         {
             var currentVersion = NuGetVersion.Parse(ReleaseVersion);
-            Assert.False(currentVersion.IsPrerelease, $"不能从预发行版本创建 Hotfix：{ReleaseVersion}");
+            Assert.False(currentVersion.IsPrerelease, GetText(
+                $"A hotfix cannot be created from a prerelease version: {ReleaseVersion}",
+                $"不能从预发行版本创建 Hotfix：{ReleaseVersion}"));
             var nextVersion = new NuGetVersion(
                 currentVersion.Major,
                 currentVersion.Minor,

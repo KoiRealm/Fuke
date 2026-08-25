@@ -135,7 +135,7 @@ public class BuildExecutorTest
         var action = () => ExecuteBuild();
 
         action.Should().Throw<TargetExecutionException>()
-            .WithMessage("目标“A”抛出了异常。");
+            .WithMessage("Target 'A' threw an exception.");
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public class BuildExecutorTest
         var action = () => ExecuteBuild();
 
         action.Should().Throw<TargetExecutionException>()
-            .WithMessage("目标“B”抛出了异常。");
+            .WithMessage("Target 'B' threw an exception.");
     }
 
     [Fact]

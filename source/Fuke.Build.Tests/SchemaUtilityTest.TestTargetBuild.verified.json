@@ -33,55 +33,55 @@
       "properties": {
         "Continue": {
           "type": "boolean",
-          "description": "继续上一次失败的构建。"
+          "description": "Continue the previous failed build."
         },
         "Help": {
           "type": "boolean",
-          "description": "显示此构建程序集的帮助文本。"
+          "description": "Show help for this build assembly."
         },
         "Host": {
-          "description": "执行主机。默认为“automatic”。",
+          "description": "Execution host. Defaults to 'automatic'.",
           "$ref": "#/definitions/Host"
         },
         "NoLogo": {
           "type": "boolean",
-          "description": "禁止显示 FUKE 标志。"
+          "description": "Suppress the FUKE header and ASCII logo."
         },
         "Partition": {
           "type": "string",
-          "description": "CI 上使用的分区。"
+          "description": "Partition used on CI."
         },
         "Plan": {
           "type": "boolean",
-          "description": "显示执行计划（HTML）。"
+          "description": "Show the execution plan as HTML."
         },
         "Profile": {
           "type": "array",
-          "description": "指定要加载的配置文件。",
+          "description": "Profiles to load.",
           "items": {
             "type": "string"
           }
         },
         "Root": {
           "type": "string",
-          "description": "构建执行期间的根目录。"
+          "description": "Root directory used during build execution."
         },
         "Skip": {
           "type": "array",
-          "description": "要跳过的目标列表。空列表将跳过所有依赖项。",
+          "description": "List of targets to skip. An empty list skips all dependencies.",
           "items": {
             "$ref": "#/definitions/ExecutableTarget"
           }
         },
         "Target": {
           "type": "array",
-          "description": "要调用的目标列表。默认为“{default_target}”。",
+          "description": "List of targets to invoke. Defaults to '{default_target}'.",
           "items": {
             "$ref": "#/definitions/ExecutableTarget"
           }
         },
         "Verbosity": {
-          "description": "构建执行期间的日志详细程度。默认为“Normal”。",
+          "description": "Logging verbosity during build execution. Defaults to 'Normal'.",
           "$ref": "#/definitions/Verbosity"
         }
       }

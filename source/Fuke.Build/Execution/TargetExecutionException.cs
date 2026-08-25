@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -12,7 +13,7 @@ namespace Fuke.Common.Execution;
 internal class TargetExecutionException : Exception
 {
     public TargetExecutionException(string targetName, Exception inner)
-        : base($"目标“{targetName}”抛出了异常。", inner)
+        : base(L($"Target '{targetName}' threw an exception.", $"目标“{targetName}”抛出了异常。"), inner)
     {
     }
 

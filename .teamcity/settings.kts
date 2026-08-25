@@ -50,7 +50,7 @@ project {
         checkbox (
             "env.IgnoreFailedSources",
             label = "IgnoreFailedSources",
-            description = "在 Restore 期间忽略无法访问的源",
+            description = "Ignore inaccessible sources during Restore",
             value = "False",
             checked = "True",
             unchecked = "False",
@@ -58,7 +58,7 @@ project {
         text (
             "env.PrereleaseNuGetSource",
             label = "PrereleaseNuGetSource",
-            description = "预发行包的 NuGet 源；非正式发布时必须显式指定",
+            description = "NuGet source for prerelease packages; it must be specified explicitly for non-stable releases.",
             value = "",
             allowEmpty = true,
             display = ParameterDisplay.NORMAL)
@@ -84,7 +84,7 @@ project {
         select (
             "env.Verbosity",
             label = "Verbosity",
-            description = "构建执行期间的日志详细程度。默认为“Normal”。",
+            description = "Logging verbosity during build execution. Defaults to 'Normal'.",
             value = "Normal",
             options = listOf("Minimal" to "Minimal", "Normal" to "Normal", "Quiet" to "Quiet", "Verbose" to "Verbose"),
             display = ParameterDisplay.NORMAL)

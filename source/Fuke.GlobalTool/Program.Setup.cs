@@ -18,6 +18,7 @@ using Fuke.Common.Utilities.Collections;
 using Spectre.Console;
 using static Fuke.Common.Constants;
 using static Fuke.Common.EnvironmentInfo;
+using static Fuke.Common.ToolLocalization;
 using static Fuke.Common.Tooling.ProcessTasks;
 using static Fuke.Common.Utilities.TemplateUtility;
 
@@ -38,7 +39,7 @@ partial class Program
         Logging.Configure();
 
         AnsiConsole.WriteLine();
-        AnsiConsole.MarkupLine("[bold]开始初始化新的构建项目！[/]");
+        AnsiConsole.MarkupLine($"[bold]{L("Starting initialization of a new build project!", "开始初始化新的构建项目！")}[/]");
         AnsiConsole.WriteLine();
 
         #region Basic
@@ -53,41 +54,41 @@ partial class Program
 
         if (rootDirectory == null)
         {
-            Host.Warning("未找到根目录，将使用当前工作目录……");
+            Host.Warning(L("No root directory was found; using the current working directory ...", "未找到根目录，将使用当前工作目录……"));
             rootDirectory = WorkingDirectory;
         }
-        ShowInput("deciduous_tree", "根目录", rootDirectory);
+        ShowInput("deciduous_tree", L("Root directory", "根目录"), rootDirectory);
 
-        var buildProjectName = PromptForInput("构建项目要使用什么名称？", "_build");
+        var buildProjectName = PromptForInput(L("What should the build project be named?", "构建项目要使用什么名称？"), "_build");
         ClearPreviousLine();
-        ShowInput("bookmark", "构建项目名称", buildProjectName);
+        ShowInput("bookmark", L("Build project name", "构建项目名称"), buildProjectName);
 
-        var buildProjectRelativeDirectory = PromptForInput("构建项目要放在哪里？", "./build");
+        var buildProjectRelativeDirectory = PromptForInput(L("Where should the build project be placed?", "构建项目要放在哪里？"), "./build");
         ClearPreviousLine();
-        ShowInput("round_pushpin", "构建项目位置", buildProjectRelativeDirectory);
+        ShowInput("round_pushpin", L("Build project location", "构建项目位置"), buildProjectRelativeDirectory);
 
-        var fukeVersion = PromptForChoice("要使用哪个 Fuke.Common 版本？",
+        var fukeVersion = PromptForChoice(L("Which Fuke.Common version should be used?", "要使用哪个 Fuke.Common 版本？"),
             new[]
                 {
-                    ("最新正式版", fukeLatestReleaseVersion.GetAwaiter().GetResult()),
-                    ("最新预发行版", fukeLatestPrereleaseVersion.GetAwaiter().GetResult()),
-                    ("最新本地版", fukeLatestLocalVersion),
-                    ("与全局工具相同", typeof(Program).GetTypeInfo().Assembly.GetVersionText())
+                    (L("latest stable", "最新正式版"), fukeLatestReleaseVersion.GetAwaiter().GetResult()),
+                    (L("latest prerelease", "最新预发行版"), fukeLatestPrereleaseVersion.GetAwaiter().GetResult()),
+                    (L("latest local", "最新本地版"), fukeLatestLocalVersion),
+                    (L("same as global tool", "与全局工具相同"), typeof(Program).GetTypeInfo().Assembly.GetVersionText())
                 }
                 .Where(x => x.Item2 != null)
                 .Distinct(x => x.Item2)
                 .Select(x => (x.Item2, $"{x.Item2} ({x.Item1})")).ToArray());
-        ShowInput("gem_stone", "Fuke.Common 版本", fukeVersion);
+        ShowInput("gem_stone", L("Fuke.Common version", "Fuke.Common 版本"), fukeVersion);
 
         var solutionFile = (AbsolutePath) PromptForChoice(
-            "哪个解决方案作为默认项？",
+            L("Which solution should be the default?", "哪个解决方案作为默认项？"),
             choices: new DirectoryInfo(rootDirectory)
                 .EnumerateFiles("*", SearchOption.AllDirectories)
                 .Where(x => x.FullName.EndsWithOrdinalIgnoreCase(".sln"))
                 .OrderByDescending(x => x.FullName)
                 .Select(x => (x, rootDirectory.GetRelativePathTo(x.FullName).ToString()))
-                .Concat((null, "无")).ToArray())?.FullName;
-        ShowInput("toolbox", "默认解决方案", solutionFile != null ? rootDirectory.GetRelativePathTo(solutionFile) : "<无>");
+                .Concat((null, L("none", "无"))).ToArray())?.FullName;
+        ShowInput("toolbox", L("Default solution", "默认解决方案"), solutionFile != null ? rootDirectory.GetRelativePathTo(solutionFile) : L("<none>", "<无>"));
 
         #endregion
 
@@ -136,7 +137,7 @@ partial class Program
 
         #endregion
 
-        ShowCompletion("初始化");
+        ShowCompletion(L("Initialization", "初始化"));
 
         return 0;
     }
@@ -151,7 +152,7 @@ partial class Program
             return;
 
         var globalIndex = content.IndexOf("Global");
-        Assert.True(globalIndex != -1, "解决方案文件中未找到“Global”节");
+        Assert.True(globalIndex != -1, L("The 'Global' section was not found in the solution file.", "解决方案文件中未找到“Global”节"));
 
         var projectConfigurationIndex = content.FindIndex(x => x.Contains("GlobalSection(ProjectConfigurationPlatforms)"));
         if (projectConfigurationIndex == -1)

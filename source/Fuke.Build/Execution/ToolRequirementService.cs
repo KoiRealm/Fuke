@@ -10,6 +10,7 @@ using Fuke.Common.IO;
 using Fuke.Common.Tooling;
 using Fuke.Common.Utilities;
 using Serilog;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -56,8 +57,8 @@ internal static class ToolRequirementService
         if (projectFile.Exists() && projectFile.ReadAllText().StartsWith(content))
             return;
 
-        Log.Information("正在安装 NuGet 包……");
-        packages.ForEach(x => Log.Verbose("正在安装 {Id} ({Version})……", x.PackageId, x.Version));
+        Log.Information(L("Installing NuGet packages ...", "正在安装 NuGet 包……"));
+        packages.ForEach(x => Log.Verbose(L("Installing {Id} ({Version}) ...", "正在安装 {Id} ({Version})……"), x.PackageId, x.Version));
 
         projectFile.WriteAllText(content);
         var dotnet = ToolResolver.GetEnvironmentOrPathTool("dotnet");
@@ -85,8 +86,8 @@ internal static class ToolRequirementService
         if (packageJsonFile.Exists() && packageJsonFile.ReadAllText().StartsWith(content))
             return;
 
-        Log.Information("正在安装 NPM 包……");
-        packages.ForEach(x => Log.Verbose("正在安装 {Id} ({Version})……", x.PackageId, x.Version));
+        Log.Information(L("Installing NPM packages ...", "正在安装 NPM 包……"));
+        packages.ForEach(x => Log.Verbose(L("Installing {Id} ({Version}) ...", "正在安装 {Id} ({Version})……"), x.PackageId, x.Version));
 
         packageJsonFile.WriteAllText(content);
         var npm = ToolResolver.GetEnvironmentOrPathTool("npm");
@@ -99,7 +100,7 @@ internal static class ToolRequirementService
             return;
 
         var packages = requirements.OrderBy(x => x.PackageId).ToList();
-        Assert.True(EnvironmentInfo.IsLinux, "AptGet 仅在 Linux 上可用");
+        Assert.True(EnvironmentInfo.IsLinux, L("AptGet is only available on Linux.", "AptGet 仅在 Linux 上可用"));
 
         var installScript = build.TemporaryDirectory / "apt-get.sh";
 
@@ -112,8 +113,8 @@ internal static class ToolRequirementService
         if (installScript.Exists() && installScript.ReadAllText().StartsWith(content))
             return;
 
-        Log.Information("正在安装 AptGet 包……");
-        packages.ForEach(x => Log.Verbose("正在安装 {Id}……", x.PackageId));
+        Log.Information(L("Installing AptGet packages ...", "正在安装 AptGet 包……"));
+        packages.ForEach(x => Log.Verbose(L("Installing {Id} ...", "正在安装 {Id}……"), x.PackageId));
 
         installScript.WriteAllText(content);
         ProcessTasks.StartShell($"sudo {installScript}", logInvocation: false, logOutput: false).AssertZeroExitCode();

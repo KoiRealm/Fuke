@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using Fuke.Common.IO;
 using Fuke.Common.Utilities;
 using Serilog;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.ProjectModel;
 
@@ -28,10 +29,24 @@ namespace Fuke.Common.ProjectModel;
 /// </example>
 [PublicAPI]
 [UsedImplicitly(ImplicitUseKindFlags.Assign)]
-public class SolutionAttribute(string relativePath)
-    : ParameterAttribute(GetDescription(relativePath))
+public class SolutionAttribute : ParameterAttribute
 {
+    private readonly string _relativePath;
+
+    public SolutionAttribute(string relativePath)
+        : base(GetDescription(relativePath))
+    {
+        _relativePath = relativePath;
+        DescriptionChinese = GetDescriptionChinese(relativePath);
+    }
+
     private static string GetDescription(string relativePath)
+    {
+        return "Path to the solution file to load automatically."
+               + (relativePath != null ? $" Defaults to {relativePath}." : string.Empty);
+    }
+
+    private static string GetDescriptionChinese(string relativePath)
     {
         return "要自动加载的解决方案文件路径。"
                + (relativePath != null ? $"默认为 {relativePath}。" : string.Empty);
@@ -59,9 +74,11 @@ public class SolutionAttribute(string relativePath)
     // TODO: for just [Solution] without parameter being passed, do wildcard search?
     private AbsolutePath GetSolutionFileFromParametersFile(MemberInfo member)
     {
-        return relativePath != null
-            ? Build.RootDirectory / relativePath
-            : ParameterService.GetParameter<AbsolutePath>(member).NotNull($"未给“{member.Name}”定义解决方案文件。");
+        return _relativePath != null
+            ? Build.RootDirectory / _relativePath
+            : ParameterService.GetParameter<AbsolutePath>(member).NotNull(L(
+                $"No solution file was defined for '{member.Name}'.",
+                $"未给“{member.Name}”定义解决方案文件。"));
     }
 
     private AbsolutePath TryGetSolutionFileFromFukeFile()
@@ -72,10 +89,14 @@ public class SolutionAttribute(string relativePath)
 
         var solutionFileRelative = fukeFile.ReadAllLines().ElementAtOrDefault(0);
         Assert.True(solutionFileRelative != null && !solutionFileRelative.Contains(value: '\\'),
-            $"{Constants.FukeFileName} 第一行必须使用 UNIX 分隔符指定解决方案路径");
+            L(
+                $"The first line of {Constants.FukeFileName} must specify the solution path using UNIX separators.",
+                $"{Constants.FukeFileName} 第一行必须使用 UNIX 分隔符指定解决方案路径"));
 
         var solutionFile = Build.RootDirectory / solutionFileRelative;
-        Assert.FileExists(solutionFile, $"通过 {Constants.FukeFileName} 指定的解决方案文件“{solutionFile}”不存在");
+        Assert.FileExists(solutionFile, L(
+            $"The solution file '{solutionFile}' specified by {Constants.FukeFileName} does not exist.",
+            $"通过 {Constants.FukeFileName} 指定的解决方案文件“{solutionFile}”不存在"));
 
         return solutionFile;
     }

@@ -80,7 +80,7 @@ project {
         select (
             "env.Verbosity",
             label = "Verbosity",
-            description = "构建执行期间的日志详细程度。默认为“Normal”。",
+            description = "Logging verbosity during build execution. Defaults to 'Normal'.",
             value = "Normal",
             options = listOf("Minimal" to "Minimal", "Normal" to "Normal", "Quiet" to "Quiet", "Verbose" to "Verbose"),
             display = ParameterDisplay.NORMAL)

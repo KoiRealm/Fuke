@@ -9,6 +9,7 @@ using Fuke.Common.CI;
 using Fuke.Common.IO;
 using Fuke.Common.Utilities;
 using static Fuke.Common.Constants;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -24,8 +25,8 @@ internal class HandleShellCompletionAttribute : BuildExtensionAttributeBase, IOn
             Host.Error(
                 new[]
                 {
-                    "不再支持旧式 .fuke 配置。",
-                    "请运行以下命令，转换为新式 .fuke 目录：",
+                    L("Legacy .fuke configuration is no longer supported.", "不再支持旧式 .fuke 配置。"),
+                    L("Run the following command to convert it to the new .fuke directory format:", "请运行以下命令，转换为新式 .fuke 目录："),
                     "   fuke :update"
                 }.JoinNewLine());
             Environment.Exit(exitCode: -1);

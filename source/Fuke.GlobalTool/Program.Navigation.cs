@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using Fuke.Common;
 using Fuke.Common.IO;
 using static Fuke.Common.Constants;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.GlobalTool;
 
@@ -25,7 +26,9 @@ partial class Program
         {
             PlatformFamily.OSX => EnvironmentInfo.GetVariable("TERM_SESSION_ID").NotNull()[7..],
             PlatformFamily.Windows => EnvironmentInfo.GetVariable("WT_SESSION").NotNull(),
-            _ => throw new NotSupportedException($"平台 {EnvironmentInfo.Platform} 没有会话 ID 选择器。")
+            _ => throw new NotSupportedException(L(
+                $"Platform {EnvironmentInfo.Platform} does not provide a session ID selector.",
+                $"平台 {EnvironmentInfo.Platform} 没有会话 ID 选择器。"))
         };
 
     private static AbsolutePath SessionFile => GlobalTemporaryDirectory / $"fuke-{SessionId}.dat";
@@ -53,7 +56,7 @@ partial class Program
         var content = SessionFile.Existing()?.ReadAllLines().ToList();
         if (content == null || content.Count <= 1)
         {
-            Console.Error.WriteLine("没有上一个目录");
+            Console.Error.WriteLine(L("There is no previous directory.", "没有上一个目录"));
             return 1;
         }
 
@@ -66,14 +69,14 @@ partial class Program
     [UsedImplicitly]
     private static int PushWithCurrentRootDirectory(string[] args, [CanBeNull] AbsolutePath rootDirectory, [CanBeNull] AbsolutePath buildScript)
     {
-        return PushAndSetNext(() => rootDirectory.NotNull("未找到根目录"));
+        return PushAndSetNext(() => rootDirectory.NotNull(L("The root directory was not found.", "未找到根目录")));
     }
 
     [UsedImplicitly]
     private static int PushWithParentRootDirectory(string[] args, [CanBeNull] AbsolutePath rootDirectory, [CanBeNull] AbsolutePath buildScript)
     {
-        return PushAndSetNext(() => TryGetRootDirectoryFrom(Path.GetDirectoryName(rootDirectory.NotNull("未找到根目录")))
-            .NotNull("未找到上级根目录"));
+        return PushAndSetNext(() => TryGetRootDirectoryFrom(Path.GetDirectoryName(rootDirectory.NotNull(L("The root directory was not found.", "未找到根目录"))))
+            .NotNull(L("The parent root directory was not found.", "未找到上级根目录")));
     }
 
     [UsedImplicitly]
@@ -88,7 +91,7 @@ partial class Program
                 .Select(x => (x, EnvironmentInfo.WorkingDirectory.GetRelativePathTo(x).ToString()))
                 .OrderBy(x => x.Item2).ToArray();
 
-            return PromptForChoice("接下来要前往哪个目录？", directories);
+            return PromptForChoice(L("Which directory should be opened next?", "接下来要前往哪个目录？"), directories);
         });
     }
 

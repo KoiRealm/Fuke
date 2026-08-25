@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fuke.Build\Fuke.Build.csproj" />
+    <ProjectReference Include="..\Fuke.Build.Shared\Fuke.Build.Shared.csproj" />
     <ProjectReference Include="..\Fuke.Common\Fuke.Common.csproj" />
   </ItemGroup>
 

@@ -9,6 +9,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Fuke.Common.Utilities;
 using Fuke.Common.ValueInjection;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -24,9 +25,13 @@ internal static class DelegateRequirementService
         {
             if (requirement is Expression<Func<bool>> boolExpression)
                 // TODO: same as HasSkippingCondition.GetSkipReason
-                Assert.True(boolExpression.Compile().Invoke(), $"目标“{target.Name}”要求满足“{requirement.Body}”");
+                Assert.True(boolExpression.Compile().Invoke(), L(
+                    $"Target '{target.Name}' requires '{requirement.Body}' to be satisfied.",
+                    $"目标“{target.Name}”要求满足“{requirement.Body}”"));
             else if (IsMemberNullOrEmpty(requirement.GetMemberInfo(), build, target))
-                Assert.Fail($"目标“{target.Name}”要求成员“{GetMemberName(requirement.GetMemberInfo())}”不能为 null 或空值");
+                Assert.Fail(L(
+                    $"Target '{target.Name}' requires member '{GetMemberName(requirement.GetMemberInfo())}' to be non-null and non-empty.",
+                    $"目标“{target.Name}”要求成员“{GetMemberName(requirement.GetMemberInfo())}”不能为 null 或空值"));
         }
 
         var requiredMembers = ValueInjectionUtility.GetInjectionMembers(build.GetType())
@@ -35,7 +40,9 @@ internal static class DelegateRequirementService
         foreach (var member in requiredMembers)
         {
             if (IsMemberNullOrEmpty(member, build))
-                Assert.Fail($"成员“{GetMemberName(member)}”不能为 null 或空值");
+                Assert.Fail(L(
+                    $"Member '{GetMemberName(member)}' must be non-null and non-empty.",
+                    $"成员“{GetMemberName(member)}”不能为 null 或空值"));
         }
     }
 

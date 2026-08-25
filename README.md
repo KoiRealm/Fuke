@@ -7,7 +7,7 @@ English | [中文](README.zh-CN.md)
 ## Installation
 
 ```powershell
-dotnet tool install --global Fuke.GlobalTool --version 0.1.0
+dotnet tool install --global Fuke.GlobalTool
 ```
 
 After installation, verify that FUKE is available from any directory:
@@ -20,6 +20,19 @@ To upgrade to a later version, run:
 
 ```powershell
 dotnet tool update --global Fuke.GlobalTool --version <version>
+```
+
+## Global Settings
+
+FUKE displays English by default and keeps the large ASCII logo hidden. Global settings are stored in `%APPDATA%/KoiRealm/Fuke/settings.json` on Windows.
+
+```powershell
+fuke :settings
+fuke :settings --language Chinese
+fuke :settings --language English
+fuke :settings --show-logo true
+fuke :settings --show-logo false
+fuke :settings --reset
 ```
 
 ## Building Locally
@@ -40,4 +53,5 @@ To run the repository's own FUKE build:
 
 ## Background
 
-The initial version of this project was developed based on [NUKE Build](https://github.com/nuke-build/nuke) 10.1.0. We thank the NUKE Build team for their long-standing contributions. The project was originally named FishNuke, but the name was shortened to FUKE to make it easier to remember and type. FUKE is a fully independent project and has no official affiliation with the original project.
+The initial version of this project was developed based on [NUKE Build](https://github.com/nuke-build/nuke) 10.1.0. We thank the NUKE Build team for their long-standing contributions. The project was originally named FishNuke, but the name was shortened to FUKE to make it easier to remember and type.
+FUKE is a fully independent project and has no official affiliation with the original project.

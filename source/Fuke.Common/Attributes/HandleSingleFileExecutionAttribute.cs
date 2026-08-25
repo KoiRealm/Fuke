@@ -15,6 +15,7 @@ using Fuke.Common.IO;
 using Fuke.Common.Tooling;
 using Fuke.Common.Utilities;
 using Serilog;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -40,7 +41,7 @@ public class HandleSingleFileExecutionAttribute : BuildExtensionAttributeBase, I
             return;
 
         var globalPackagesDirectory = Constants.GlobalFukeDirectory / "packages";
-        Log.Information("正在将包解压到 {PackagesDirectory}", globalPackagesDirectory);
+        Log.Information(L("Extracting packages to {PackagesDirectory}", "正在将包解压到 {PackagesDirectory}"), globalPackagesDirectory);
 
         foreach (var packageResourceName in packageResourceNames)
         {

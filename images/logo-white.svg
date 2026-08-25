@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
-  <title id="title">Fuke logo</title>
-  <desc id="desc">The Fuke aircraft carrier mark followed by the FUKE wordmark.</desc>
+  <title id="title">Fuke logo for dark backgrounds</title>
+  <desc id="desc">The Fuke aircraft carrier mark followed by a white FUKE wordmark.</desc>
   <g transform="translate(-24 -30) scale(.78)">
     <g transform="matrix(-0.48 0 0 0.62 509.92 25.67)">
       <path d="M156 291 L416 286 L510 328 L600 365 L655 382 L750 420 L840 456 L902 481 L902 500 C850 505 700 515 570 523 L371 525 C360 462 335 400 295 350 C250 322 202 303 156 291 Z" fill="#38bdf8"/>
       <path d="M156 291 L416 286 C414 350 420 430 430 505 Q401 524 371 525 C360 462 335 400 295 350 C250 322 202 303 156 291 Z" fill="#0ea5e9"/>
-      <path d="M630 350 L640 282 L677 270 L690 360 Z" fill="#171a1f"/>
-      <path d="M650 280 L653 245 L673 240 L679 274 Z" fill="#0ea5e9"/>
-      <path d="M663 242 L663 218" fill="none" stroke="#171a1f" stroke-width="12" stroke-linecap="round"/>
+      <path d="M630 350 L640 282 L677 270 L690 360 Z" fill="#f7f8fa"/>
+      <path d="M650 280 L653 245 L673 240 L679 274 Z" fill="#7dd3fc"/>
+      <path d="M663 242 L663 218" fill="none" stroke="#f7f8fa" stroke-width="12" stroke-linecap="round"/>
       <circle cx="663" cy="218" r="12" fill="#38bdf8"/>
-      <path d="M665 355 L750 365 L840 395 L902 425 L902 452 L840 435 L750 405 L655 382 Z" fill="#7dd3fc"/>
-      <path d="M156 291 L416 286 L510 328 L600 365 L655 382 L750 420 L840 456 L902 481 L902 493 L840 468 L748 432 L648 399 L593 378 L504 342 L411 302 L165 307 Z" fill="#aeb6c2"/>
-      <path d="M156 244 L415 237 L416 286 L156 291 Q148 268 156 244 Z" fill="#171a1f"/>
-      <path d="M415 237 L505 280 L597 325 L665 355 L750 395 L840 438 L902 467 L902 481 L840 456 L750 420 L655 382 L600 365 L510 328 L416 286 Z" fill="#2b3139"/>
+      <path d="M665 355 L750 365 L840 395 L902 425 L902 452 L840 435 L750 405 L655 382 Z" fill="#bae6fd"/>
+      <path d="M156 291 L416 286 L510 328 L600 365 L655 382 L750 420 L840 456 L902 481 L902 493 L840 468 L748 432 L648 399 L593 378 L504 342 L411 302 L165 307 Z" fill="#2b3139"/>
+      <path d="M156 244 L415 237 L416 286 L156 291 Q148 268 156 244 Z" fill="#f7f8fa"/>
+      <path d="M415 237 L505 280 L597 325 L665 355 L750 395 L840 438 L902 467 L902 481 L840 456 L750 420 L655 382 L600 365 L510 328 L416 286 Z" fill="#e0f2fe"/>
       <path d="M156 244 L415 237 L505 280 L597 325 L665 355 L750 395 L840 438 L902 467" fill="none" stroke="#38bdf8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
   </g>
-  <g fill="#171a1f">
+  <g fill="#f7f8fa">
     <path d="M348 68h150v40H394v42h92v40h-92v70h-46z"/>
     <path d="M530 68h46v126c0 20 10 30 30 30h18c20 0 30-10 30-30V68h46v130c0 44-26 66-72 66h-26c-46 0-72-22-72-66z"/>
     <path d="M744 68h46v72l68-72h58l-82 86 88 106h-60l-72-88v88h-46z"/>

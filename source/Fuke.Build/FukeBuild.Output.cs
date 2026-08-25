@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Fuke.Common.Utilities;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common;
 
@@ -16,10 +17,10 @@ partial class FukeBuild
         if (IsInterceptorExecution)
             return;
 
-        if (IsOutputEnabled(DefaultOutput.Logo))
+        if (GlobalToolSettingsStore.Current.ShowLogo && IsOutputEnabled(DefaultOutput.Logo))
             Host.WriteLogo();
 
-        Host.Information($"FUKE 执行引擎 {typeof(FukeBuild).Assembly.GetInformationalText()}");
+        Host.Information($"{L("FUKE Execution Engine", "FUKE 执行引擎")} {typeof(FukeBuild).Assembly.GetInformationalText()}");
         Host.Information();
     }
 
