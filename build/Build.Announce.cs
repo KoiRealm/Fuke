@@ -2,7 +2,6 @@
 // Distributed under the MIT License.
 // See LICENSE in the repository root.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +17,7 @@ using Fuke.Common.Tools.Mastodon;
 using Fuke.Common.Tools.Slack;
 using Fuke.Common.Utilities;
 using Fuke.Components;
+using NuGet.Versioning;
 using static Fuke.Common.Tools.Discord.DiscordTasks;
 using static Fuke.Common.Tools.Git.GitTasks;
 using static Fuke.Common.Tools.Mastodon.MastodonTasks;
@@ -37,13 +37,19 @@ partial class Build
     string AnnouncementLink => $"https://nuget.org/packages/Fuke.Common/{ReleaseVersion}";
     int AnnouncementColor => 0x00ACC1;
 
-    string AnnouncementThumbnailUrl =>
-        (Version.Parse(ReleaseVersion).Minor, Version.Parse(ReleaseVersion).Build, Version.Parse(ReleaseVersion).Revision) switch
+    string AnnouncementThumbnailUrl
+    {
+        get
         {
-            (0, 0, 0) => "https://em-content.zobj.net/thumbs/320/apple/325/rocket_1f680.png",
-            (_, 0, 0) => "https://em-content.zobj.net/thumbs/320/apple/325/wrapped-gift_1f381.png",
-            _ => "https://em-content.zobj.net/thumbs/320/apple/325/package_1f4e6.png"
-        };
+            var version = NuGetVersion.Parse(ReleaseVersion);
+            return (version.Minor, version.Patch) switch
+            {
+                (0, 0) => "https://em-content.zobj.net/thumbs/320/apple/325/rocket_1f680.png",
+                (_, 0) => "https://em-content.zobj.net/thumbs/320/apple/325/wrapped-gift_1f381.png",
+                _ => "https://em-content.zobj.net/thumbs/320/apple/325/package_1f4e6.png"
+            };
+        }
+    }
 
     string AnnouncementComparisonUrl => $"{RepositoryUrl}/releases/tag/v{ReleaseVersion}";
 

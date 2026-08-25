@@ -7,7 +7,7 @@ English | [中文](README.zh-CN.md)
 ## Installation
 
 ```powershell
-dotnet tool install --global Fuke.GlobalTool --version 0.0.0.1
+dotnet tool install --global Fuke.GlobalTool --version 0.1.0
 ```
 
 After installation, verify that FUKE is available from any directory:

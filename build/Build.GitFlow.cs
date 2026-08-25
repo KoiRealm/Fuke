@@ -2,7 +2,6 @@
 // Distributed under the MIT License.
 // See LICENSE in the repository root.
 
-using System;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
@@ -11,6 +10,7 @@ using Fuke.Common.Git;
 using Fuke.Common.Tooling;
 using Fuke.Common.Tools.GitHub;
 using Fuke.Components;
+using NuGet.Versioning;
 using Octokit;
 using Serilog;
 using static Fuke.Common.ChangeLog.ChangelogTasks;
@@ -69,12 +69,15 @@ partial class Build
         .Requires(() => !GitRepository.IsOnHotfixBranch() || GitHasCleanWorkingCopy())
         .Executes(() =>
         {
-            var currentVersion = Version.Parse(ReleaseVersion);
-            Assert.True(currentVersion.Revision >= 0, $"FUKE 版本必须包含修订号：{ReleaseVersion}");
-            var nextRevision = currentVersion.Revision + 1;
+            var currentVersion = NuGetVersion.Parse(ReleaseVersion);
+            Assert.False(currentVersion.IsPrerelease, $"不能从预发行版本创建 Hotfix：{ReleaseVersion}");
+            var nextVersion = new NuGetVersion(
+                currentVersion.Major,
+                currentVersion.Minor,
+                currentVersion.Patch + 1);
 
             if (!GitRepository.IsOnHotfixBranch())
-                Checkout($"{HotfixBranchPrefix}/{currentVersion.Major}.{currentVersion.Minor}.{currentVersion.Build}.{nextRevision}", start: MainBranch);
+                Checkout($"{HotfixBranchPrefix}/{nextVersion.ToNormalizedString()}", start: MainBranch);
             else
                 FinishReleaseOrHotfix();
         });
