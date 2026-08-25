@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using JetBrains.Annotations;
 using Fuke.Common.Tooling;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Utilities;
 
@@ -69,7 +70,9 @@ public static class CredentialStore
     {
         string PromptForPassword()
         {
-            Host.Information($"请输入 {Constants.GetParametersFileName(profile)} 的密码：");
+            Host.Information(L(
+                $"Enter the password for {Constants.GetParametersFileName(profile)}:",
+                $"请输入 {Constants.GetParametersFileName(profile)} 的密码："));
             return ConsoleUtility.ReadSecret();
         }
 
@@ -86,8 +89,10 @@ public static class CredentialStore
         {
             Host.Information(
                 EnvironmentInfo.IsOsx
-                    ? "请输入至少 10 个字符的密码（留空将自动生成并保存到 macOS 钥匙串）："
-                    : "请输入至少 10 个字符的密码：");
+                    ? L(
+                        "Enter a password of at least 10 characters (leave empty to generate one and save it to the macOS keychain):",
+                        "请输入至少 10 个字符的密码（留空将自动生成并保存到 macOS 钥匙串）：")
+                    : L("Enter a password of at least 10 characters:", "请输入至少 10 个字符的密码："));
 
             var password = ConsoleUtility.ReadSecret();
             if (password.IsNullOrEmpty() && EnvironmentInfo.IsOsx)

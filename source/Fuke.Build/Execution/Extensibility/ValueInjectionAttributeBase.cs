@@ -8,6 +8,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using Fuke.Common.Utilities;
 using Serilog;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.ValueInjection;
 
@@ -28,7 +29,7 @@ public abstract class ValueInjectionAttributeBase : Attribute
         catch (Exception exception)
         {
             if (!SuppressWarnings && !member.HasCustomAttribute<OptionalAttribute>())
-                Log.Warning(exception.Unwrap(), "无法为 {Member} 注入值", member.GetDisplayName());
+                Log.Warning(exception.Unwrap(), L("Could not inject a value for {Member}", "无法为 {Member} 注入值"), member.GetDisplayName());
 
             return null;
         }
@@ -51,8 +52,10 @@ public abstract class ValueInjectionAttributeBase : Attribute
                 allowAmbiguity: true,
                 filterQuasiOverridden: true)
             .FirstOrDefault()
-            .NotNull($"在“{type.Name}”中找不到成员“{memberName}”");
-        Assert.True(typeof(T).IsAssignableFrom(member.GetMemberType()), $"成员“{type.Name}.{member.Name}”必须是“{typeof(T).Name}”类型");
+            .NotNull(L($"Member '{memberName}' was not found in '{type.Name}'.", $"在“{type.Name}”中找不到成员“{memberName}”"));
+        Assert.True(typeof(T).IsAssignableFrom(member.GetMemberType()), L(
+            $"Member '{type.Name}.{member.Name}' must be of type '{typeof(T).Name}'.",
+            $"成员“{type.Name}.{member.Name}”必须是“{typeof(T).Name}”类型"));
         return member.GetValue<T>(instance);
     }
 

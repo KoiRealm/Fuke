@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using Fuke.Common.Utilities;
 using static Fuke.Common.Constants;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -18,7 +19,7 @@ internal class UpdateNotificationAttribute : BuildExtensionAttributeBase, IOnBui
         if (Build.IsLocalBuild && ShouldNotify)
         {
             Notify();
-            Host.Information("按任意键跳过更新并继续……");
+            Host.Information(L("Press any key to skip the update and continue ...", "按任意键跳过更新并继续……"));
             Console.ReadKey();
         }
     }
@@ -37,13 +38,13 @@ internal class UpdateNotificationAttribute : BuildExtensionAttributeBase, IOnBui
         Host.Warning(
             new[]
             {
-                "--- 建议从 5.1.0 版本开始更新 ---",
-                "1. 更新全局工具",
+                L("--- Updating from version 5.1.0 or newer is recommended ---", "--- 建议从 5.1.0 版本开始更新 ---"),
+                L("1. Update the global tool", "1. 更新全局工具"),
                 "   dotnet tool update Fuke.GlobalTool -g",
-                "2. 更新构建项目",
+                L("2. Update the build project", "2. 更新构建项目"),
                 "   fuke :update",
-                "3. 确认更新配置文件和构建脚本",
-                "   （其他更新项可选）",
+                L("3. Confirm updates to configuration files and build scripts", "3. 确认更新配置文件和构建脚本"),
+                L("   (Other update items are optional)", "   （其他更新项可选）"),
                 string.Empty
             }.JoinNewLine());
     }

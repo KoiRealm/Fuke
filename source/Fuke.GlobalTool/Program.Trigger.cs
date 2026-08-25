@@ -10,6 +10,7 @@ using Fuke.Common.Git;
 using Fuke.Common.IO;
 using Fuke.Common.Tools.Git;
 using Fuke.Common.Utilities;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.GlobalTool;
 
@@ -18,8 +19,9 @@ partial class Program
     [UsedImplicitly]
     public static int Trigger(string[] args, [CanBeNull] AbsolutePath rootDirectory, [CanBeNull] AbsolutePath buildScript)
     {
-        var repository = GitRepository.FromLocalDirectory(rootDirectory.NotNull()).NotNull("未找到 Git 仓库");
-        Assert.NotNull(repository.Branch, "Git 仓库不能处于 detached HEAD 状态");
+        var repository = GitRepository.FromLocalDirectory(rootDirectory.NotNull())
+            .NotNull(L("The Git repository was not found.", "未找到 Git 仓库"));
+        Assert.NotNull(repository.Branch, L("The Git repository cannot be in detached HEAD state.", "Git 仓库不能处于 detached HEAD 状态"));
         Assert.NotEmpty(args);
 
         try

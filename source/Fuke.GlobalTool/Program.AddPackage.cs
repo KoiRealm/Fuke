@@ -11,6 +11,7 @@ using Fuke.Common.IO;
 using Fuke.Common.ProjectModel;
 using Fuke.Common.Tooling;
 using Fuke.Common.Tools.DotNet;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.GlobalTool;
 
@@ -36,7 +37,9 @@ partial class Program
 
         var configuration = GetConfiguration(buildScript, evaluate: true);
         var buildProjectFile = configuration[BUILD_PROJECT_FILE];
-        Host.Information($"正在将 {packageId}/{packageVersion} 安装到 {buildProjectFile} ……");
+        Host.Information(L(
+            $"Installing {packageId}/{packageVersion} into {buildProjectFile} ...",
+            $"正在将 {packageId}/{packageVersion} 安装到 {buildProjectFile} ……"));
         AddOrReplacePackage(packageId, packageVersion, PACKAGE_TYPE_DOWNLOAD, buildProjectFile);
         DotNetTasks.DotNet($"restore {buildProjectFile}");
 
@@ -46,7 +49,9 @@ partial class Program
         if (!hasToolsDirectory)
             AddOrReplacePackage(packageId, packageVersion, PACKAGE_TYPE_REFERENCE, buildProjectFile);
 
-        Host.Information($"已将 {packageId}/{packageVersion} 安装到 {buildProjectFile}");
+        Host.Information(L(
+            $"Installed {packageId}/{packageVersion} into {buildProjectFile}.",
+            $"已将 {packageId}/{packageVersion} 安装到 {buildProjectFile}"));
         return 0;
     }
 

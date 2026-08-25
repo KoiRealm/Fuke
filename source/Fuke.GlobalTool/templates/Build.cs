@@ -31,14 +31,14 @@ class Build : FukeBuild
 
     public static int Main () => Execute<Build>(x => x.Compile);
 
-    [Parameter("要构建的配置——本地默认为“Debug”，服务器默认为“Release”")]
+    [Parameter("Configuration to build. Defaults to 'Debug' locally and 'Release' on servers.", DescriptionChinese = "要构建的配置——本地默认为“Debug”，服务器默认为“Release”")]
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
-    [Parameter("推送 NuGet 包的源")]                                                // NUGET
+    [Parameter("Source used to push NuGet packages.", DescriptionChinese = "推送 NuGet 包的源")]                                                // NUGET
     readonly string Source = "https://api.nuget.org/v3/index.json";                             // NUGET
-    [Parameter("推送 NuGet 源码包的 API 端点")]                                   // NUGET
+    [Parameter("API endpoint used to push NuGet symbol packages.", DescriptionChinese = "推送 NuGet 源码包的 API 端点")]                                   // NUGET
     readonly string SymbolSource = "https://nuget.smbsrc.net/";                                 // NUGET
-    [Parameter("推送 NuGet 包的 API 密钥")]                                           // NUGET
+    [Parameter("API key used to push NuGet packages.", DescriptionChinese = "推送 NuGet 包的 API 密钥")]                                           // NUGET
     readonly string ApiKey;                                                                     // NUGET
 
     [Solution] readonly Solution Solution;                                                      // SOLUTION_FILE

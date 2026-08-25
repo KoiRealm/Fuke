@@ -8,6 +8,7 @@ using System.Reflection;
 using JetBrains.Annotations;
 using Fuke.Common.Utilities;
 using Fuke.Common.ValueInjection;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.CI;
 
@@ -20,7 +21,9 @@ public class CIAttribute : ValueInjectionAttributeBase
         // TODO: allow with conversion?
         var memberType = member.GetMemberType();
         var instanceProperty = memberType.GetProperty(nameof(Host.Instance), ReflectionUtility.Static);
-        Assert.True(instanceProperty != null, $"类型“{memberType}”不支持通过“{nameof(CIAttribute)}”注入");
+        Assert.True(instanceProperty != null, L(
+            $"Type '{memberType}' does not support injection through '{nameof(CIAttribute)}'.",
+            $"类型“{memberType}”不支持通过“{nameof(CIAttribute)}”注入"));
         return instanceProperty.GetValue(obj: null);
     }
 }

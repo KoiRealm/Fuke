@@ -10,6 +10,7 @@ using Fuke.Common.IO;
 using Fuke.Common.Tooling;
 using Serilog;
 using static Fuke.Common.CI.BuildServerConfigurationGeneration;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.CI;
 
@@ -34,7 +35,7 @@ public class InvokeBuildServerConfigurationGenerationAttribute
         if (Console.IsInputRedirected)
             return;
 
-        Host.Information("按任意键继续……");
+        Host.Information(L("Press any key to continue ...", "按任意键继续……"));
         Console.ReadKey();
     }
 
@@ -62,8 +63,8 @@ public class InvokeBuildServerConfigurationGenerationAttribute
             return false;
 
         // TODO: multi-line logging
-        Log.Warning("{Configuration} 的配置文件已更改。", generator.DisplayName);
-        changedFiles.ForEach(x => Log.Verbose("已更新 {File}", x));
+        Log.Warning(L("Configuration files for {Configuration} have changed.", "{Configuration} 的配置文件已更改。"), generator.DisplayName);
+        changedFiles.ForEach(x => Log.Verbose(L("Updated {File}", "已更新 {File}"), x));
         return true;
     }
 }

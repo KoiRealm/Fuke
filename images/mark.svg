@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Fuke aircraft carrier mark</title>
+  <desc id="desc">A sky-blue aircraft carrier mark for light backgrounds.</desc>
+  <g transform="matrix(-0.48 0 0 0.62 509.92 25.67)">
+    <path d="M156 291 L416 286 L510 328 L600 365 L655 382 L750 420 L840 456 L902 481 L902 500 C850 505 700 515 570 523 L371 525 C360 462 335 400 295 350 C250 322 202 303 156 291 Z" fill="#38bdf8"/>
+    <path d="M156 291 L416 286 C414 350 420 430 430 505 Q401 524 371 525 C360 462 335 400 295 350 C250 322 202 303 156 291 Z" fill="#0ea5e9"/>
+    <path d="M630 350 L640 282 L677 270 L690 360 Z" fill="#171a1f"/>
+    <path d="M650 280 L653 245 L673 240 L679 274 Z" fill="#0ea5e9"/>
+    <path d="M663 242 L663 218" fill="none" stroke="#171a1f" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="663" cy="218" r="12" fill="#38bdf8"/>
+    <path d="M665 355 L750 365 L840 395 L902 425 L902 452 L840 435 L750 405 L655 382 Z" fill="#7dd3fc"/>
+    <path d="M156 291 L416 286 L510 328 L600 365 L655 382 L750 420 L840 456 L902 481 L902 493 L840 468 L748 432 L648 399 L593 378 L504 342 L411 302 L165 307 Z" fill="#aeb6c2"/>
+    <path d="M156 244 L415 237 L416 286 L156 291 Q148 268 156 244 Z" fill="#171a1f"/>
+    <path d="M415 237 L505 280 L597 325 L665 355 L750 395 L840 438 L902 467 L902 481 L840 456 L750 420 L655 382 L600 365 L510 328 L416 286 Z" fill="#2b3139"/>
+    <path d="M156 244 L415 237 L505 280 L597 325 L665 355 L750 395 L840 438 L902 467" fill="none" stroke="#38bdf8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

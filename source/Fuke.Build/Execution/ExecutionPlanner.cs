@@ -9,6 +9,7 @@ using JetBrains.Annotations;
 using NuGet.Packaging;
 using Fuke.Common.Utilities;
 using Fuke.Common.Utilities.Collections;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -53,7 +54,7 @@ internal static class ExecutionPlanner
         if (cycles.Count > 0)
         {
             // TODO: logging additional
-            Assert.Fail("目标之间存在循环依赖："
+            Assert.Fail(L("Circular dependencies exist between targets:", "目标之间存在循环依赖：")
                 .Concat(cycles.Select(x => $" - {x.Select(y => y.Value.Name).JoinCommaSpace()}"))
                 .JoinNewLine());
         }
@@ -64,7 +65,7 @@ internal static class ExecutionPlanner
             if (ParameterService.GetNamedArgument<bool>("strict") && independents.Count > 1)
             {
                 // TODO: logging additional
-                Assert.Fail("目标定义顺序不完整："
+                Assert.Fail(L("Target ordering is incomplete:", "目标定义顺序不完整：")
                     .Concat(independents.Select(x => $"  - {x.Value.Name}"))
                     .JoinNewLine());
             }
@@ -104,7 +105,9 @@ internal static class ExecutionPlanner
         var executableTarget = executableTargets.SingleOrDefault(x => x.Name.EqualsOrdinalIgnoreCase(targetName));
         if (executableTarget == null)
         {
-            Assert.Fail($"名为 {targetName.SingleQuote()} 的目标不存在。可用目标："
+            Assert.Fail(L(
+                    $"Target {targetName.SingleQuote()} does not exist. Available targets:",
+                    $"名为 {targetName.SingleQuote()} 的目标不存在。可用目标：")
                 .Concat(executableTargets.Select(x => $"  - {x.Name}").OrderBy(x => x))
                 .JoinNewLine());
         }

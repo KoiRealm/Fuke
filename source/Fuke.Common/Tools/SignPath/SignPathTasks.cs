@@ -17,6 +17,7 @@ using Fuke.Common.IO;
 using Fuke.Common.Utilities;
 using Serilog;
 using static Fuke.Common.ControlFlow;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Tools.SignPath;
 
@@ -73,7 +74,7 @@ public static class SignPathTasks
             new StringContent(content.ToJson(), Encoding.UTF8, contentType));
         response.AssertStatusCode(HttpStatusCode.Created);
 
-        Log.Information("签名请求已创建：{Url}", response.Headers.Location.AbsoluteUri.Replace("api/v1", "Web"));
+        Log.Information(L("Signing request created: {Url}", "签名请求已创建：{Url}"), response.Headers.Location.AbsoluteUri.Replace("api/v1", "Web"));
         return response.Headers.Location.AbsoluteUri;
     }
 
@@ -123,7 +124,7 @@ public static class SignPathTasks
     {
         using var defaultHttpClient = CreateAuthorizedHttpClient(apiToken, DefaultHttpClientTimeout);
         var downloadUrl = GetSignedArtifactUrl(defaultHttpClient, signingRequestUrl);
-        Log.Information("签名产物已可下载：{DownloadUrl}", downloadUrl);
+        Log.Information(L("Signed artifact is available: {DownloadUrl}", "签名产物已可下载：{DownloadUrl}"), downloadUrl);
 
         using var downloadHttpClient = CreateAuthorizedHttpClient(apiToken, UploadAndDownloadRequestTimeout);
         using var response = SendGetRequestWithRetry(downloadHttpClient, downloadUrl);
@@ -132,7 +133,7 @@ public static class SignPathTasks
         outputPath.Parent.CreateDirectory();
         await using var fileStream = File.Open(outputPath, FileMode.Create);
         await downloadStream.CopyToAsync(fileStream);
-        Log.Information("签名产物已下载到：{OutputPath}", outputPath);
+        Log.Information(L("Signed artifact downloaded to: {OutputPath}", "签名产物已下载到：{OutputPath}"), outputPath);
     }
 
     private static string GetSignedArtifactUrl(HttpClient httpClient, string signingRequestUrl)
@@ -159,7 +160,9 @@ public static class SignPathTasks
             retryAttempts: WaitForCompletionRetryAttempts,
             logAction: Log.Debug);
 
-        return signedArtifactUrl.NotNull($"签名请求状态：{signingRequestStatus}");
+        return signedArtifactUrl.NotNull(L(
+            $"Signing request status: {signingRequestStatus}",
+            $"签名请求状态：{signingRequestStatus}"));
     }
 
     private static HttpClient CreateAuthorizedHttpClient(string apiToken, TimeSpan timeout)

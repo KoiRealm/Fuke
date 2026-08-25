@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using Fuke.Common.CI;
 using Fuke.Common.IO;
 using Fuke.Common.Utilities;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Git;
 
@@ -46,7 +47,8 @@ public class GitRepository
     /// </summary>
     public static GitRepository FromLocalDirectory(AbsolutePath directory)
     {
-        var rootDirectory = directory.FindParentOrSelf(x => x.ContainsDirectory(".git")).NotNull($"“{directory}”没有包含它的 Git 目录");
+        var rootDirectory = directory.FindParentOrSelf(x => x.ContainsDirectory(".git"))
+            .NotNull(L($"No containing Git directory was found for '{directory}'.", $"“{directory}”没有包含它的 Git 目录"));
         var gitDirectory = rootDirectory / ".git";
 
         var head = GetHead(gitDirectory);
@@ -82,8 +84,11 @@ public class GitRepository
             .Skip(1)
             .TakeWhile(x => !x.StartsWith("["))
             .Select(x => x.Split('='))
-            .ToDictionary(x => x.ElementAt(0).Trim(), x => x.ElementAt(1).Trim());
-        return data.TryGetValue("remote", out var remote) && data.TryGetValue("merge", out var merge)
+            .Select(x => (Key: x.ElementAt(0).Trim(), Value: x.ElementAt(1).Trim()))
+            .ToList();
+        var remote = data.Where(x => x.Key == "remote").Select(x => x.Value).SingleOrDefault();
+        var merge = data.Where(x => x.Key == "merge").Select(x => x.Value).SingleOrDefault();
+        return remote != null && merge != null
             ? (remote, merge.TrimStart("refs/heads/"))
             : (null, null);
     }
@@ -107,7 +112,7 @@ public class GitRepository
             .Select(x => x.Commit)
             .FirstOrDefault();
 
-        commit.NotNull("找不到提交信息");
+        commit.NotNull(L("The commit could not be found.", "找不到提交信息"));
 
         return commit;
     }
@@ -167,7 +172,7 @@ public class GitRepository
             @"^(?'protocol'\w+)?(\:\/\/)?(?>(?'user'.*)@)?(?'endpoint'[^\/:]+)(?>\:(?'port'\d+))?[\/:](?'identifier'.*?)\/?(?>\.git)?$");
         var match = regex.Match(url.NotNull().Trim());
 
-        Assert.True(match.Success, $"无法解析 URL“{url}”。");
+        Assert.True(match.Success, L($"Could not parse URL '{url}'.", $"无法解析 URL“{url}”。"));
         var protocol = match.Groups["protocol"].Value.EqualsOrdinalIgnoreCase(GitProtocol.Https.ToString())
             ? GitProtocol.Https
             : GitProtocol.Ssh;

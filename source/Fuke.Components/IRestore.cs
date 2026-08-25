@@ -31,6 +31,6 @@ public interface IRestore : IHazSolution, IFukeBuild
 
     Configure<DotNetRestoreSettings> RestoreSettings => _ => _;
 
-    [Parameter("在 " + nameof(Restore) + " 期间忽略无法访问的源")]
+    [Parameter("Ignore inaccessible sources during " + nameof(Restore), DescriptionChinese = "在 " + nameof(Restore) + " 期间忽略无法访问的源")]
     bool IgnoreFailedSources => TryGetValue<bool?>(() => IgnoreFailedSources) ?? false;
 }

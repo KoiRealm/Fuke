@@ -30,7 +30,7 @@ internal static class EncryptionUtility
         }
         catch
         {
-            Assert.Fail($"无法使用提供的密码解密“{name}”");
+            Assert.Fail($"Could not decrypt '{name}' with the supplied password.");
             return null;
         }
     }

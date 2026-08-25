@@ -11,6 +11,7 @@ using Fuke.Common;
 using Fuke.Common.IO;
 using Fuke.Common.Utilities;
 using Fuke.Common.Utilities.Collections;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.GlobalTool;
 
@@ -27,7 +28,7 @@ partial class Program
     {
         var configuration = GetConfiguration(buildScript.NotNull(), evaluate: false);
 
-        Host.Information($"来自 {buildScript} 的配置：");
+        Host.Information(L($"Configuration from {buildScript}:", $"来自 {buildScript} 的配置："));
         configuration.ForEach(x => Console.WriteLine($"{x.Key} = {x.Value}"));
 
         return 0;

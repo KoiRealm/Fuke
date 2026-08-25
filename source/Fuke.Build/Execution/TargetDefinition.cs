@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Fuke.Common.Tooling;
 using Fuke.Common.Utilities;
 using Fuke.Common.Utilities.Collections;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -252,8 +253,9 @@ internal class TargetDefinition : ITargetDefinition
     public ITargetDefinition Base()
     {
         Assert.True(_baseMembers.Count > 0,
-            $"目标“{Target.DeclaringType}.{Target.Name}”没有任何基成员。"
-            + $"若要继承接口默认实现，请改用 {nameof(Inherit)}<T>。");
+            L(
+                $"Target '{Target.DeclaringType}.{Target.Name}' has no base members. Use {nameof(Inherit)}<T> to inherit a default interface implementation.",
+                $"目标“{Target.DeclaringType}.{Target.Name}”没有任何基成员。若要继承接口默认实现，请改用 {nameof(Inherit)}<T>。"));
         Inherit(_baseMembers.Pop().GetValueNonVirtual<Target>(Build));
         return this;
     }
@@ -268,7 +270,7 @@ internal class TargetDefinition : ITargetDefinition
     {
         var properties = targets.Length > 0
             ? targets.Select(x => x.GetMemberInfo())
-            : new[] { GetSingleTargetProperty<T>("简写继承") };
+            : new[] { GetSingleTargetProperty<T>(L("shorthand inheritance", "简写继承")) };
         Inherit(properties.Select(x => x.GetValueNonVirtual<Target>(Build)).ToArray());
         return this;
     }
@@ -310,8 +312,8 @@ internal class TargetDefinition : ITargetDefinition
         where T : IFukeBuild
     {
         Assert.True(Build is T, $"'{Build.GetType().Name}' must implement context '{typeof(T).Name}'");
-        var setup = (Setup) GetSingleTargetProperty<T>("上下文依赖（缺少 setup）", targetType: typeof(Setup)).GetValue(Build);
-        var cleanup = (Cleanup) GetSingleTargetProperty<T>("上下文依赖（缺少 cleanup）", targetType: typeof(Cleanup)).GetValue(Build);
+        var setup = (Setup) GetSingleTargetProperty<T>(L("context dependency (missing setup)", "上下文依赖（缺少 setup）"), targetType: typeof(Setup)).GetValue(Build);
+        var cleanup = (Cleanup) GetSingleTargetProperty<T>(L("context dependency (missing cleanup)", "上下文依赖（缺少 cleanup）"), targetType: typeof(Cleanup)).GetValue(Build);
         DependsOnTargets.Add(setup);
         BeforeTargets.Add(cleanup);
         return this;
@@ -328,7 +330,7 @@ internal class TargetDefinition : ITargetDefinition
     {
         return targets.Length > 0
             ? targets
-            : new[] { (Target) GetSingleTargetProperty<T>("简写依赖").GetValue(Build) };
+            : new[] { (Target) GetSingleTargetProperty<T>(L("shorthand dependency", "简写依赖")).GetValue(Build) };
     }
 
     private PropertyInfo GetSingleTargetProperty<T>(string kind, Type targetType = null)
@@ -337,8 +339,15 @@ internal class TargetDefinition : ITargetDefinition
             .Where(x => x.PropertyType == (targetType ?? typeof(Target))).ToList();
         if (interfaceTargets.Count != 1)
         {
-            Assert.Fail($"目标“{Target.DeclaringType}.{Target.Name}”无法在组件“{typeof(T).Name}”上使用{kind}。"
-                .Concat(new[] { interfaceTargets.Count > 1 ? "相关目标过多：" : "没有相关目标。" })
+            Assert.Fail(L(
+                    $"Target '{Target.DeclaringType}.{Target.Name}' cannot use {kind} on component '{typeof(T).Name}'.",
+                    $"目标“{Target.DeclaringType}.{Target.Name}”无法在组件“{typeof(T).Name}”上使用{kind}。")
+                .Concat(new[]
+                {
+                    interfaceTargets.Count > 1
+                        ? L("Too many related targets:", "相关目标过多：")
+                        : L("No related target exists.", "没有相关目标。")
+                })
                 .Concat(interfaceTargets.Select(x => $"  - {x.Name}")).JoinNewLine());
         }
 

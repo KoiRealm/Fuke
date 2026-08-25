@@ -11,6 +11,7 @@ using Fuke.Common.IO;
 using Fuke.Common.Utilities;
 using Fuke.Common.Utilities.Collections;
 using Serilog;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common.Execution;
 
@@ -75,7 +76,7 @@ internal static class BuildExecutor
             var previousBuild = BuildAttemptFile.ReadAllLines();
             if (previousBuild.FirstOrDefault() != invocationHash)
             {
-                Log.Warning("构建调用已更改，正在重启……");
+                Log.Warning(L("The build invocation changed; restarting ...", "构建调用已更改，正在重启……"));
                 return new string[0];
             }
 
@@ -135,7 +136,7 @@ internal static class BuildExecutor
                         _ => _.AddPair(exception.GetType().Name, exception.Message.SplitLineBreaks().First()));
                 }
 
-                Log.Error(exception, "目标 {TargetName} 抛出了异常", target.Name);
+                Log.Error(exception, L("Target {TargetName} threw an exception", "目标 {TargetName} 抛出了异常"), target.Name);
 
                 target.Stopwatch.Stop();
                 target.Status = ExecutionStatus.Failed;
@@ -172,7 +173,9 @@ internal static class BuildExecutor
         catch (Exception exception)
         {
             exception = exception.Unwrap();
-            Log.Error(exception, "调用目标 {TargetName} 的条件时抛出了异常", target.Name);
+            Log.Error(exception, L(
+                "An exception was thrown while evaluating a condition for target {TargetName}",
+                "调用目标 {TargetName} 的条件时抛出了异常"), target.Name);
             throw new TargetExecutionException(target.Name, exception);
         }
 

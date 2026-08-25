@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Fuke.Common.Utilities;
 using Serilog;
+using static Fuke.Common.ToolLocalization;
 #pragma warning disable CS0618
 
 // ReSharper disable CompareNonConstrainedGenericWithNull
@@ -57,7 +58,7 @@ public static class ControlFlow
         catch (Exception exception)
         {
             if (logWarning)
-                Log.Warning(exception.Unwrap(), "异常已被抑制");
+                Log.Warning(exception.Unwrap(), L("Exception was suppressed", "异常已被抑制"));
 
             return defaultValue;
         }

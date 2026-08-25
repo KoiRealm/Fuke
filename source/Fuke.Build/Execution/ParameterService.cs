@@ -12,6 +12,7 @@ using Fuke.Common.Tooling;
 using Fuke.Common.Utilities;
 using Serilog;
 using static Fuke.Common.Utilities.ReflectionUtility;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common;
 
@@ -72,7 +73,10 @@ internal partial class ParameterService
     public static string GetParameterDescription(MemberInfo member)
     {
         var attribute = member.GetCustomAttribute<ParameterAttribute>().NotNull();
-        return attribute.Description?.TrimEnd('.');
+        var description = attribute.DescriptionChinese != null
+            ? ToolLocalization.L(attribute.Description, attribute.DescriptionChinese)
+            : attribute.Description;
+        return description?.TrimEnd('.');
     }
 
     [CanBeNull]
@@ -90,7 +94,9 @@ internal partial class ParameterService
             var valueProvider = valueProviderType
                 .GetMember(attribute.ValueProviderMember, All)
                 .SingleOrDefault()
-                .NotNull($"找不到唯一的提供程序“{valueProviderType.Name}.{member.Name}”");
+                .NotNull(L(
+                    $"Could not find the unique value provider '{valueProviderType.Name}.{member.Name}'.",
+                    $"找不到唯一的提供程序“{valueProviderType.Name}.{member.Name}”"));
             Assert.True(valueProvider.GetMemberType() == typeof(IEnumerable<string>),
                 $"Value provider '{valueProvider.Name}' must be of type '{typeof(IEnumerable<string>).GetDisplayShortName()}'");
 
@@ -124,7 +130,9 @@ internal partial class ParameterService
         }
         catch (Exception exception)
         {
-            Log.Warning(exception.Unwrap(), "无法解析参数 {Parameter} 的可选值集合", member.GetDisplayName());
+            Log.Warning(exception.Unwrap(), L(
+                "Could not resolve the set of possible values for parameter {Parameter}",
+                "无法解析参数 {Parameter} 的可选值集合"), member.GetDisplayName());
             return null;
         }
     }
@@ -204,7 +212,9 @@ internal partial class ParameterService
                 .Where(x => GetTrimmedName(x.Key).EqualsOrdinalIgnoreCase(trimmedVariableName) ||
                             GetTrimmedName(x.Key).EqualsOrdinalIgnoreCase($"FUKE{trimmedVariableName}")).ToList();
             if (alternativeValues.Count > 1)
-                Log.Warning("由于提供了多个值，无法解析 {VariableName}", variableName);
+                Log.Warning(L(
+                    "Could not resolve {VariableName} because multiple values were provided",
+                    "由于提供了多个值，无法解析 {VariableName}"), variableName);
 
             if (alternativeValues.Count == 1)
                 value = alternativeValues.Single().Value;
@@ -218,7 +228,14 @@ internal partial class ParameterService
         }
         catch (Exception ex)
         {
-            Assert.Fail(new[] { ex.Message, $"解析参数“{variableName}”失败。环境变量值为：", value }.JoinNewLine());
+            Assert.Fail(new[]
+            {
+                ex.Message,
+                L(
+                    $"Failed to parse parameter '{variableName}'. Environment variable value:",
+                    $"解析参数“{variableName}”失败。环境变量值为："),
+                value
+            }.JoinNewLine());
             // ReSharper disable once HeuristicUnreachableCode
             return null;
         }

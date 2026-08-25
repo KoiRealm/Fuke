@@ -13,6 +13,7 @@ using Fuke.Common.IO;
 using Fuke.Common.Tooling;
 using Fuke.Common.Utilities;
 using Spectre.Console;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.GlobalTool;
 
@@ -46,7 +47,7 @@ public partial class Program
 
     private static void PrintInfo()
     {
-        Host.Information($"FUKE 全局工具 🌐 {typeof(Program).Assembly.GetInformationalText()}");
+        Host.Information($"{L("FUKE Global Tool", "FUKE 全局工具")} 🌐 {typeof(Program).Assembly.GetInformationalText()}");
     }
 
     [CanBeNull]
@@ -70,25 +71,30 @@ public partial class Program
         {
             var command = args.First().Trim(CommandPrefix).Replace("-", string.Empty);
             if (string.IsNullOrWhiteSpace(command))
-                Assert.Fail($"未指定命令。用法：fuke {CommandPrefix}<command> [args]");
+                Assert.Fail(L(
+                    $"No command was specified. Usage: fuke {CommandPrefix}<command> [args]",
+                    $"未指定命令。用法：fuke {CommandPrefix}<command> [args]"));
 
             var availableCommands = typeof(Program).GetMethods(ReflectionUtility.Static).Where(x => x.ReturnType == typeof(int)).ToList();
             var commandHandler = availableCommands.SingleOrDefault(x => x.Name.EqualsOrdinalIgnoreCase(command))
-                .NotNull(new[] { $"不支持命令“{command}”，可用命令如下：" }
+                .NotNull(new[] { L($"Command '{command}' is not supported. Available commands:", $"不支持命令“{command}”，可用命令如下：") }
                     .Concat(availableCommands.Where(x => x.IsPublic).Select(x => $"  - {x.Name}").OrderBy(x => x)).JoinNewLine());
             // TODO: add assertions about return type and parameters
 
             var commandArguments = new object[] { args.Skip(count: 1).ToArray(), rootDirectory, buildScript };
-            return (int)commandHandler.Invoke(obj: null, commandArguments).NotNull($"命令“{command}”未返回退出代码");
+            return (int)commandHandler.Invoke(obj: null, commandArguments)
+                .NotNull(L($"Command '{command}' did not return an exit code.", $"命令“{command}”未返回退出代码"));
         }
 
         if (rootDirectory == null || buildScript == null)
         {
             var missingItem = rootDirectory == null
-                ? $"{Constants.FukeDirectoryName} 目录/文件"
-                : "build.ps1/build.sh 文件";
+                ? L($"{Constants.FukeDirectoryName} directory/file", $"{Constants.FukeDirectoryName} 目录/文件")
+                : L("build.ps1/build.sh file", "build.ps1/build.sh 文件");
 
-            return PromptForConfirmation($"未找到 {missingItem}。是否要初始化构建？")
+            return PromptForConfirmation(L(
+                    $"The {missingItem} was not found. Initialize a build?",
+                    $"未找到 {missingItem}。是否要初始化构建？"))
                 ? Setup(new string[0], rootDirectory, buildScript: null)
                 : 0;
         }
@@ -126,7 +132,7 @@ public partial class Program
     private static void ShowCompletion(string title)
     {
         AnsiConsole.WriteLine();
-        AnsiConsole.MarkupLine($"[bold green]{title}已完成！[/] :party_popper:");
+        AnsiConsole.MarkupLine($"[bold green]{L($"{title} completed!", $"{title}已完成！")}[/] :party_popper:");
     }
 
     private static void ClearPreviousLine()
@@ -156,7 +162,9 @@ public partial class Program
             new TextPrompt<string>($"{title}:")
                 .Secret()
                 .Validate(x => minLength == null || x.Length >= minLength,
-                    message: $"密钥长度至少为 {minLength} 个字符"));
+                    message: L(
+                        $"The secret must be at least {minLength} characters long.",
+                        $"密钥长度至少为 {minLength} 个字符")));
     }
 
     private static T PromptForChoice<T>(string question, params (T Value, string Description)[] choices)
@@ -187,7 +195,7 @@ public partial class Program
             catch (Exception)
             {
                 confirmation = false;
-                title = $"{title}（失败）";
+                title = L($"{title} (failed)", $"{title}（失败）");
             }
             finally
             {

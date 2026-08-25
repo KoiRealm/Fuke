@@ -131,9 +131,9 @@ public class SchemaUtility
                     schemaResolver)
                 : new JsonSchemaProperty { Type = JsonObjectType.String };
 
-            property.Description = ParameterService.GetParameterDescription(parameterMember);
+            property.Description = parameterMember.GetCustomAttribute<ParameterAttribute>().NotNull().Description;
             property.Default = parameterMember.HasCustomAttribute<SecretAttribute>()
-                ? "请通过“fuke :secrets [profile]”输入密钥"
+                ? "Enter the secret through 'fuke :secrets [profile]'."
                 : null;
 
             var values = ParameterService.GetParameterValueSet(parameterMember, _build)

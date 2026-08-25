@@ -14,6 +14,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.Common;
 
@@ -82,7 +83,7 @@ public partial class Host
             return;
 
         // TODO: move to Logging
-        using (WriteBlock("错误与警告"))
+        using (WriteBlock(L("Errors and warnings", "错误与警告")))
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console(
@@ -118,20 +119,20 @@ public partial class Host
                 : string.Empty;
 
         static string GetDuration(TimeSpan duration)
-            => $"{(int)duration.TotalMinutes}:{duration:ss}".Replace("0:00", "< 1秒");
+            => $"{(int)duration.TotalMinutes}:{duration:ss}".Replace("0:00", L("< 1 second", "< 1秒"));
 
         static string GetExecutionStatus(ExecutionStatus status)
             => status switch
             {
-                ExecutionStatus.None => "无",
-                ExecutionStatus.Scheduled => "已调度",
-                ExecutionStatus.NotRun => "未运行",
-                ExecutionStatus.Skipped => "已跳过",
-                ExecutionStatus.Succeeded => "成功",
-                ExecutionStatus.Failed => "失败",
-                ExecutionStatus.Running => "运行中",
-                ExecutionStatus.Aborted => "已中止",
-                ExecutionStatus.Collective => "集合目标",
+                ExecutionStatus.None => L("None", "无"),
+                ExecutionStatus.Scheduled => L("Scheduled", "已调度"),
+                ExecutionStatus.NotRun => L("Not run", "未运行"),
+                ExecutionStatus.Skipped => L("Skipped", "已跳过"),
+                ExecutionStatus.Succeeded => L("Succeeded", "成功"),
+                ExecutionStatus.Failed => L("Failed", "失败"),
+                ExecutionStatus.Running => L("Running", "运行中"),
+                ExecutionStatus.Aborted => L("Aborted", "已中止"),
+                ExecutionStatus.Collective => L("Collective", "集合目标"),
                 _ => throw new NotSupportedException(status.ToString())
             };
 
@@ -142,7 +143,7 @@ public partial class Host
 
         Debug();
         Debug('═'.Repeat(allColumns));
-        Information(CreateLine("目标", "状态", "耗时"));
+        Information(CreateLine(L("Target", "目标"), L("Status", "状态"), L("Duration", "耗时")));
         //WriteInformationInternal($"{{0,-{firstColumn}}}{{1,-{secondColumn}}}{{2,{thirdColumn}}}{{3,1}}", "Target", "Status", "Duration", "Test");
         Debug('─'.Repeat(allColumns));
         foreach (var target in build.ExecutionPlan)
@@ -171,7 +172,7 @@ public partial class Host
         }
 
         Debug('─'.Repeat(allColumns));
-        Information(CreateLine("总计", string.Empty, GetDuration(totalDuration)));
+        Information(CreateLine(L("Total", "总计"), string.Empty, GetDuration(totalDuration)));
         Debug('═'.Repeat(allColumns));
     }
 
@@ -179,9 +180,13 @@ public partial class Host
     {
         Debug();
         if (build.IsSucceeding)
-            Success($"构建于 {DateTime.Now.ToString(CultureInfo.CurrentCulture)} 成功完成。＼（＾ᴗ＾）／");
+            Success(L(
+                $"Build succeeded at {DateTime.Now.ToString(CultureInfo.CurrentCulture)}. ＼（＾ᴗ＾）／",
+                $"构建于 {DateTime.Now.ToString(CultureInfo.CurrentCulture)} 成功完成。＼（＾ᴗ＾）／"));
         else
-            Error($"构建于 {DateTime.Now.ToString(CultureInfo.CurrentCulture)} 失败。(╯°□°）╯︵ ┻━┻");
+            Error(L(
+                $"Build failed at {DateTime.Now.ToString(CultureInfo.CurrentCulture)}. (╯°□°）╯︵ ┻━┻",
+                $"构建于 {DateTime.Now.ToString(CultureInfo.CurrentCulture)} 失败。(╯°□°）╯︵ ┻━┻"));
     }
 
     internal class LogEventSink : ILogEventSink

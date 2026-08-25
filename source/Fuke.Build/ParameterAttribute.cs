@@ -42,6 +42,9 @@ public class ParameterAttribute : ValueInjectionAttributeBase
     public virtual string Description { get; }
 
     [CanBeNull]
+    public string DescriptionChinese { get; set; }
+
+    [CanBeNull]
     public string Name { get; set; }
 
     [CanBeNull]

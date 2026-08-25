@@ -17,6 +17,7 @@ using Fuke.Common.Utilities;
 using Fuke.GlobalTool.Rewriting.Cake;
 using static Fuke.Common.Constants;
 using static Fuke.Common.EnvironmentInfo;
+using static Fuke.Common.ToolLocalization;
 
 namespace Fuke.GlobalTool;
 
@@ -34,24 +35,26 @@ partial class Program
         Host.Warning(
             new[]
             {
-                ".cake 文件转换通过语法重写实现，结果需要人工检查。",
-                "转换后可能仍有编译错误；当前已支持以下元素：",
-                "  - 目标定义",
-                "  - 默认目标",
-                "  - 参数声明",
-                "  - 绝对路径",
-                "  - Glob 匹配模式",
-                "  - 工具调用（dotnet CLI、SignTool）",
-                "  - 插件与工具引用",
+                L(".cake conversion uses syntax rewriting and requires manual review.", ".cake 文件转换通过语法重写实现，结果需要人工检查。"),
+                L("Compilation errors may remain after conversion. The following elements are currently supported:", "转换后可能仍有编译错误；当前已支持以下元素："),
+                L("  - Target definitions", "  - 目标定义"),
+                L("  - Default target", "  - 默认目标"),
+                L("  - Parameter declarations", "  - 参数声明"),
+                L("  - Absolute paths", "  - 绝对路径"),
+                L("  - Glob patterns", "  - Glob 匹配模式"),
+                L("  - Tool invocations (dotnet CLI, SignTool)", "  - 工具调用（dotnet CLI、SignTool）"),
+                L("  - Add-in and tool references", "  - 插件与工具引用"),
             }.JoinNewLine());
 
         Host.Debug();
-        if (!PromptForConfirmation("是否继续？"))
+        if (!PromptForConfirmation(L("Continue?", "是否继续？")))
             return 0;
         Host.Debug();
 
         if (buildScript == null &&
-            PromptForConfirmation("是否先创建 FUKE 项目以获得更完整的转换结果？"))
+            PromptForConfirmation(L(
+                "Create a FUKE project first for more complete conversion results?",
+                "是否先创建 FUKE 项目以获得更完整的转换结果？")))
         {
             Setup(args, rootDirectory: null, buildScript: null);
         }
@@ -83,10 +86,10 @@ partial class Program
     public static int CakeClean(string[] args, [CanBeNull] AbsolutePath rootDirectory, [CanBeNull] AbsolutePath buildScript)
     {
         var cakeFiles = GetCakeFiles().ToList();
-        Host.Information("找到以下 .cake 文件：");
+        Host.Information(L("The following .cake files were found:", "找到以下 .cake 文件："));
         cakeFiles.ForEach(x => Host.Debug($"  - {x}"));
 
-        if (PromptForConfirmation("是否删除？"))
+        if (PromptForConfirmation(L("Delete them?", "是否删除？")))
             cakeFiles.ForEach(x => x.DeleteFile());
 
         return 0;
