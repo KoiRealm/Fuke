@@ -1,21 +1,23 @@
-# FUKE 社区行为准则
+# FUKE Code of Conduct
 
-FUKE 致力于为所有参与者提供开放、友善且专业的协作环境。
+English | [中文](CODE_OF_CONDUCT.zh-CN.md)
 
-## 基本要求
+FUKE is committed to providing an open, welcoming, and professional environment for everyone.
 
-- 尊重不同的观点、经验与背景，使用友善、包容的语言。
-- 围绕技术事实讨论问题，理性接受并提出建设性意见。
-- 保护他人隐私，不公开未经许可的个人信息。
-- 不得骚扰、侮辱、威胁他人，或发表歧视性、性暗示及人身攻击内容。
-- 不得通过恶意干扰、刷屏或煽动冲突破坏项目协作。
+## Standards
 
-## 适用范围与处理
+- Be respectful of different viewpoints, experiences, and backgrounds.
+- Discuss technical matters constructively and accept reasonable feedback.
+- Protect personal information and do not disclose it without permission.
+- Do not harass, insult, threaten, discriminate against, or personally attack others.
+- Do not disrupt collaboration through spam, deliberate interference, or inflammatory behavior.
 
-本准则适用于 FUKE 仓库及代表本项目参与的公开活动。维护者可以编辑或删除不当内容、拒绝不符合准则的贡献，并视情况暂时或永久限制相关人员参与项目。
+## Scope and enforcement
 
-如需反馈违反准则的行为，请通过 [FUKE Issues](https://github.com/KoiRealm/Fuke/issues) 提交，并避免公开与事件无关的个人信息。维护者将根据具体情况进行审查和处理。
+This policy applies within the FUKE repository and when representing the project in public. Maintainers may edit or remove inappropriate content, reject contributions that violate this policy, and temporarily or permanently restrict participation when necessary.
 
-## 来源
+Report violations through [FUKE Issues](https://github.com/KoiRealm/Fuke/issues), and do not publish personal information unrelated to the incident. Maintainers will review each report and respond according to its circumstances.
 
-本准则参考 [Contributor Covenant 1.4](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html) 编写。
+## Attribution
+
+This policy was adapted from [Contributor Covenant 1.4](https://www.contributor-covenant.org/version/1/4/code-of-conduct.html).

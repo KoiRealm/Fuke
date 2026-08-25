@@ -1,7 +1,15 @@
-# Reporting Security Issues
+# FUKE Security Policy
 
-If you discover a security issue, please report it by sending an email to [Matthias Koch](mailto:ithrowexceptions@gmail.com).
+English | [中文](SECURITY.zh-CN.md)
 
-This will allow us to assess the risk, and make a fix available before we add a bug report to the GitHub repository.
+## Reporting a vulnerability
 
-Thanks!
+Do not disclose a suspected vulnerability in a public issue. Submit it through [GitHub private vulnerability reporting](https://github.com/KoiRealm/Fuke/security/advisories/new).
+
+Include the affected version, environment, potential impact, reproduction steps, and a minimal proof of concept when available. Do not include unrelated personal or confidential information.
+
+Maintainers will assess the report, coordinate a fix, and arrange disclosure when appropriate. Please avoid public disclosure until a fix or mitigation is available.
+
+## Supported versions
+
+Security fixes are provided for the latest published FUKE version and the current `main` branch.
