@@ -62,7 +62,7 @@
   <!-- MSBuild (Fuke.ProjectModel + Fuke.MSBuildTasks) -->
   <ItemGroup>
     <!-- 1.11+ rejects this intentional composition of MSBuildLocator and Fuke.Tooling's NuGet runtime graph. -->
-    <PackageVersion Include="Microsoft.Build.Locator" Version="1.7.8" />
+    <PackageVersion Include="Microsoft.Build.Locator" Version="1.11.2" />
     <PackageVersion Include="Microsoft.Build" Version="18.9.6" />
     <PackageVersion Include="Microsoft.Build.Framework" Version="18.9.6" />
     <PackageVersion Include="Microsoft.Build.Tasks.Core" Version="18.9.6" />
