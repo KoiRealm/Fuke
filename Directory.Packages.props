@@ -4,12 +4,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Azure.Identity" Version="1.21.0" />
-    <PackageVersion Include="Azure.Security.KeyVault.Certificates" Version="4.9.0" />
+    <PackageVersion Include="Azure.Security.KeyVault.Certificates" Version="4.9.1" />
     <PackageVersion Include="Azure.Security.KeyVault.Keys" Version="4.10.1" />
     <PackageVersion Include="Azure.Security.KeyVault.Secrets" Version="4.11.0" />
     <PackageVersion Include="Basic.Reference.Assemblies.NetStandard20" Version="1.8.11" />
     <PackageVersion Include="Glob" Version="1.1.9" />
-    <PackageVersion Include="HtmlAgilityPack" Version="1.12.4" />
+    <PackageVersion Include="HtmlAgilityPack" Version="1.13.0" />
     <PackageVersion Include="Humanizer" Version="3.0.10" />
     <PackageVersion Include="JetBrains.Annotations" Version="2026.2.0" />
     <PackageVersion Include="Microsoft.Extensions.DependencyModel" Version="10.0.11" />
@@ -38,9 +38,9 @@
     <!-- 8.x requires a commercial license for many organizations; 7.2.0 is the newest acceptable OSS release. -->
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
-    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.4.0" />
     <!--    <PackageVersion Include="TeamCity.VSTest.TestAdapter" Version="1.0.41" />-->
-    <PackageVersion Include="Verify.XunitV3" Version="31.28.0" />
+    <PackageVersion Include="Verify.XunitV3" Version="32.0.0" />
     <PackageVersion Include="Verify.DiffPlex" Version="3.3.1" />
     <PackageVersion Include="Verify.SourceGenerators" Version="2.5.0" />
     <PackageVersion Include="xunit.v3" Version="4.0.0" />
@@ -57,7 +57,7 @@
   <!-- Solution Model -->
   <ItemGroup>
     <PackageVersion Include="matkoch.Microsoft.VisualStudio.SolutionPersistence" Version="1.0.61" />
-    <PackageVersion Include="Scriban" Version="7.2.6" />
+    <PackageVersion Include="Scriban" Version="7.4.0" />
   </ItemGroup>
   <!-- MSBuild (Fuke.ProjectModel + Fuke.MSBuildTasks) -->
   <ItemGroup>
