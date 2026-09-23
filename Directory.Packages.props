@@ -38,7 +38,7 @@
     <!-- 8.x requires a commercial license for many organizations; 7.2.0 is the newest acceptable OSS release. -->
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
-    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.4.0" />
     <!--    <PackageVersion Include="TeamCity.VSTest.TestAdapter" Version="1.0.41" />-->
     <PackageVersion Include="Verify.XunitV3" Version="32.0.0" />
     <PackageVersion Include="Verify.DiffPlex" Version="3.3.1" />
