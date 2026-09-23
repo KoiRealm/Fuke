@@ -1,5 +1,10 @@
 # 更新日志
 
+## [0.1.2] - 2026-09-23
+
+- `--no-logo` 改为简洁构建输出：省略目标表格与装饰性总结，保留失败和目标摘要信息。
+- 更新依赖包和 GitHub Actions 版本。
+
 ## [0.1.1] - 2026-08-25
 
 - 新增英语和中文两种工具显示语言，默认使用英语。
@@ -13,3 +18,4 @@
 
 [0.1.0]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.0
 [0.1.1]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.1
+[0.1.2]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.2
