@@ -68,7 +68,7 @@ jobs:
           progress: false
           filter: tree:0
       - name: 'Cache: .fuke/temp, ~/.nuget/packages'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             .fuke/temp
@@ -116,7 +116,7 @@ jobs:
           progress: false
           filter: tree:0
       - name: 'Cache: .fuke/temp, ~/.nuget/packages'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             .fuke/temp
@@ -164,7 +164,7 @@ jobs:
           progress: false
           filter: tree:0
       - name: 'Cache: .fuke/temp, ~/.nuget/packages'
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             .fuke/temp
