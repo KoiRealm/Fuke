@@ -32,6 +32,9 @@ partial class FukeBuild
         if (IsInterceptorExecution)
             return DelegateDisposable.CreateBracket();
 
+        if (NoLogo)
+            return DelegateDisposable.CreateBracket();
+
         if (IsOutputEnabled(DefaultOutput.TargetHeader) && !CanCollapse() ||
             IsOutputEnabled(DefaultOutput.TargetCollapse) && CanCollapse())
             return Host.WriteBlock(target);
@@ -44,7 +47,7 @@ partial class FukeBuild
         if (IsInterceptorExecution)
             return;
 
-        if (IsOutputEnabled(DefaultOutput.ErrorsAndWarnings))
+        if (!NoLogo && IsOutputEnabled(DefaultOutput.ErrorsAndWarnings))
             Host.WriteErrorsAndWarnings();
     }
 

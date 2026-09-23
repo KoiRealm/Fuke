@@ -58,7 +58,7 @@
         },
         "NoLogo": {
           "type": "boolean",
-          "description": "Suppress the FUKE header and ASCII logo."
+          "description": "Suppress the FUKE header and ASCII logo, and use compact build output."
         },
         "NullableBooleanParam": {
           "type": "boolean"

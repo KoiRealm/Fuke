@@ -51,6 +51,8 @@ To run the repository's own FUKE build:
 ./build.ps1 --help
 ```
 
+Use `--no-logo` for a compact build result without the target table or decorative summary.
+
 ## Background
 
 The initial version of this project was developed based on [NUKE Build](https://github.com/nuke-build/nuke) 10.1.0. We thank the NUKE Build team for their long-standing contributions. The project was originally named FishNuke, but the name was shortened to FUKE to make it easier to remember and type.

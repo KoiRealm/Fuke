@@ -142,9 +142,9 @@ public abstract partial class FukeBuild : IFukeBuild
     public bool Help { get; }
 
     /// <summary>
-    /// Gets a value whether to display the FUKE logo.
+    /// Gets a value whether to suppress the FUKE header and use compact build output.
     /// </summary>
-    [Parameter("Suppress the FUKE header and ASCII logo.", DescriptionChinese = "禁止显示 FUKE 标题与 ASCII 标志。")]
+    [Parameter("Suppress the FUKE header and ASCII logo, and use compact build output.", DescriptionChinese = "隐藏 FUKE 标题与 ASCII 标志，并使用简洁的构建输出。")]
     public bool NoLogo { get; set; }
 
     /// <summary>

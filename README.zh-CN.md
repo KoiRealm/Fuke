@@ -51,6 +51,8 @@ dotnet test --solution fuke-common.slnx --configuration Release --no-build
 ./build.ps1 --help
 ```
 
+使用 `--no-logo` 可简化构建结果，省略目标表格和装饰性总结。
+
 ## 杂谈
 
 本项目的初版是基于 [NUKE Build](https://github.com/nuke-build/nuke) 10.1.0版本开发的，感谢 NUKE Build 团队一直以来的贡献。项目原本的名字叫FishNuke，由于原名称过于冗长难以输入和记忆，因此简化为FUKE以便于记忆和使用。

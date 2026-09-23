@@ -99,6 +99,39 @@ public partial class Host
 
     protected internal virtual void WriteTargetOutcome(IFukeBuild build)
     {
+        if (build.NoLogo)
+        {
+            foreach (var target in build.ExecutionPlan.Where(x => x.Status is
+                         ExecutionStatus.Failed or ExecutionStatus.Aborted or ExecutionStatus.NotRun or ExecutionStatus.Skipped ||
+                         x.SummaryInformation.Count > 0))
+            {
+                var details = target.SummaryInformation.Count > 0
+                    ? $"; {target.SummaryInformation.Select(x => $"{x.Key}: {x.Value}").JoinCommaSpace()}"
+                    : string.Empty;
+                var line = $"{target.Name}: {GetExecutionStatus(target.Status)}{details}";
+                switch (target.Status)
+                {
+                    case ExecutionStatus.Failed:
+                        Error(line);
+                        break;
+                    case ExecutionStatus.Aborted:
+                    case ExecutionStatus.NotRun:
+                        Warning(line);
+                        break;
+                    case ExecutionStatus.Skipped:
+                        Debug(line);
+                        break;
+                    case ExecutionStatus.Succeeded:
+                        Success(line);
+                        break;
+                    default:
+                        throw new NotSupportedException(target.Status.ToString());
+                }
+            }
+
+            return;
+        }
+
         var firstColumn = Math.Max(build.ExecutionPlan.Max(x => x.Name.Length) + 4, val2: 19);
         var secondColumn = 10;
         var thirdColumn = 10;
@@ -117,24 +150,6 @@ public partial class Host
                target.Status == ExecutionStatus.Aborted
                 ? GetDuration(target.Duration)
                 : string.Empty;
-
-        static string GetDuration(TimeSpan duration)
-            => $"{(int)duration.TotalMinutes}:{duration:ss}".Replace("0:00", L("< 1 second", "< 1秒"));
-
-        static string GetExecutionStatus(ExecutionStatus status)
-            => status switch
-            {
-                ExecutionStatus.None => L("None", "无"),
-                ExecutionStatus.Scheduled => L("Scheduled", "已调度"),
-                ExecutionStatus.NotRun => L("Not run", "未运行"),
-                ExecutionStatus.Skipped => L("Skipped", "已跳过"),
-                ExecutionStatus.Succeeded => L("Succeeded", "成功"),
-                ExecutionStatus.Failed => L("Failed", "失败"),
-                ExecutionStatus.Running => L("Running", "运行中"),
-                ExecutionStatus.Aborted => L("Aborted", "已中止"),
-                ExecutionStatus.Collective => L("Collective", "集合目标"),
-                _ => throw new NotSupportedException(status.ToString())
-            };
 
         static string GetInformation(ExecutableTarget target)
             => target.SummaryInformation.Any()
@@ -178,6 +193,16 @@ public partial class Host
 
     protected internal virtual void WriteBuildOutcome(IFukeBuild build)
     {
+        if (build.NoLogo)
+        {
+            var duration = GetDuration(build.ExecutionPlan.Aggregate(TimeSpan.Zero, (total, target) => total.Add(target.Duration)));
+            if (build.IsSucceeding)
+                Success($"{L("Build succeeded", "构建成功")} ({duration})");
+            else
+                Error($"{L("Build failed", "构建失败")} ({duration})");
+            return;
+        }
+
         Debug();
         if (build.IsSucceeding)
             Success(L(
@@ -188,6 +213,26 @@ public partial class Host
                 $"Build failed at {DateTime.Now.ToString(CultureInfo.CurrentCulture)}. (╯°□°）╯︵ ┻━┻",
                 $"构建于 {DateTime.Now.ToString(CultureInfo.CurrentCulture)} 失败。(╯°□°）╯︵ ┻━┻"));
     }
+
+    private static string GetDuration(TimeSpan duration)
+        => duration < TimeSpan.FromSeconds(1)
+            ? L("< 1 second", "< 1秒")
+            : $"{(int)duration.TotalMinutes}:{duration:ss}";
+
+    private static string GetExecutionStatus(ExecutionStatus status)
+        => status switch
+        {
+            ExecutionStatus.None => L("None", "无"),
+            ExecutionStatus.Scheduled => L("Scheduled", "已调度"),
+            ExecutionStatus.NotRun => L("Not run", "未运行"),
+            ExecutionStatus.Skipped => L("Skipped", "已跳过"),
+            ExecutionStatus.Succeeded => L("Succeeded", "成功"),
+            ExecutionStatus.Failed => L("Failed", "失败"),
+            ExecutionStatus.Running => L("Running", "运行中"),
+            ExecutionStatus.Aborted => L("Aborted", "已中止"),
+            ExecutionStatus.Collective => L("Collective", "集合目标"),
+            _ => throw new NotSupportedException(status.ToString())
+        };
 
     internal class LogEventSink : ILogEventSink
     {
