@@ -1,9 +1,10 @@
 # 更新日志
 
-## [0.1.3] - 2026-11-11
+## [0.1.4] - 2026-11-11
 
 - 更新构建、运行和测试依赖，修复 XML 与 PKCS 加密组件的 NuGet 安全告警。
 - 发布图片生成改用 SkiaSharp。
+- 修复发布流程中 Spectre.Console 许可证的下载地址。
 
 ## [0.1.2] - 2026-09-23
 
@@ -24,4 +25,4 @@
 [0.1.0]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.0
 [0.1.1]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.1
 [0.1.2]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.2
-[0.1.3]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.3
+[0.1.4]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.4
