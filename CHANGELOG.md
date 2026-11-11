@@ -1,5 +1,10 @@
 # 更新日志
 
+## [0.1.3] - 2026-11-11
+
+- 更新构建、运行和测试依赖，修复 XML 与 PKCS 加密组件的 NuGet 安全告警。
+- 发布图片生成改用 SkiaSharp。
+
 ## [0.1.2] - 2026-09-23
 
 - `--no-logo` 改为简洁构建输出：省略目标表格与装饰性总结，保留失败和目标摘要信息。
@@ -19,3 +24,4 @@
 [0.1.0]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.0
 [0.1.1]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.1
 [0.1.2]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.2
+[0.1.3]: https://github.com/KoiRealm/Fuke/releases/tag/v0.1.3

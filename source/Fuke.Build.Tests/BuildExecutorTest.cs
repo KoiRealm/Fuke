@@ -135,7 +135,7 @@ public class BuildExecutorTest
         var action = () => ExecuteBuild();
 
         action.Should().Throw<TargetExecutionException>()
-            .WithMessage("Target 'A' threw an exception.");
+            .WithMessage(ToolLocalization.GetText("Target 'A' threw an exception.", "目标“A”抛出了异常。"));
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public class BuildExecutorTest
         var action = () => ExecuteBuild();
 
         action.Should().Throw<TargetExecutionException>()
-            .WithMessage("Target 'B' threw an exception.");
+            .WithMessage(ToolLocalization.GetText("Target 'B' threw an exception.", "目标“B”抛出了异常。"));
     }
 
     [Fact]

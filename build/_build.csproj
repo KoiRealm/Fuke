@@ -55,12 +55,12 @@
   <ItemGroup>
     <PackageReference Include="linqtotwitter" Version="6.15.0" />
     <PackageReference Include="MQTTnet" Version="5.2.0.1603" />
-    <!-- 3.x requires a paid Six Labors license; 2.1.7 is the newest compatible OSS release. -->
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
+    <PackageReference Include="SkiaSharp" Version="4.155.0" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.155.0" />
     <PackageDownload Include="Codecov.Tool" Version="[1.13.0]" />
     <PackageDownload Include="GitVersion.Tool" Version="[6.8.2]" />
-    <PackageDownload Include="JetBrains.ReSharper.GlobalTools" Version="[2026.2.1]" />
-    <PackageDownload Include="ReportGenerator" Version="[5.5.11]" />
+    <PackageDownload Include="JetBrains.ReSharper.GlobalTools" Version="[2026.3.0]" />
+    <PackageDownload Include="ReportGenerator" Version="[5.6.0]" />
     <!-- Compatibility fixture for the public xUnit v2 tool wrapper; repository tests run on xUnit v3. -->
     <PackageDownload Include="xunit.runner.console" Version="[2.9.3]" />
   </ItemGroup>

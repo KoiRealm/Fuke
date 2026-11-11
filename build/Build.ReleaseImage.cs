@@ -3,19 +3,13 @@
 // See LICENSE in the repository root.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Fuke.Common;
 using Fuke.Common.IO;
 using Fuke.Common.Tooling;
 using Fuke.Common.Utilities.Collections;
-using Serilog;
-using SixLabors.Fonts;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 using static Fuke.Common.IO.HttpTasks;
 
 partial class Build
@@ -30,18 +24,12 @@ partial class Build
         };
 
     AbsolutePath FontDirectory => TemporaryDirectory / "fonts";
-    IReadOnlyCollection<AbsolutePath> FontArchives => FontDirectory.GlobFiles("*.*");
-    IReadOnlyCollection<AbsolutePath> FontFiles => FontDirectory.GlobFiles("**/[!\\.]*.ttf");
-    readonly FontCollection FontCollection = new();
 
     Target InstallFonts => _ => _
         .Executes(() =>
         {
             FontDownloadUrls.ForEach(x => HttpDownloadFile(x, FontDirectory / new Uri(x).Segments.Last()));
-            FontArchives.ForEach(x => x.UncompressTo(FontDirectory / x.NameWithoutExtension));
-
-            FontFiles.ForEach(x => FontCollection.Add(x));
-            FontCollection.Families.ForEach(x => Log.Information("Installed font {Font}", x.Name));
+            FontDirectory.GlobFiles("*.zip").ForEach(x => x.UncompressTo(FontDirectory / x.NameWithoutExtension));
         });
 
     AbsolutePath WatermarkImageFile => RootDirectory / "images" / "logo-watermark.png";
@@ -51,42 +39,37 @@ partial class Build
         .DependsOn(InstallFonts)
         .Executes(() =>
         {
-            const float logoScaling = 0.37f;
-            var logo = Image.Load(WatermarkImageFile);
-            logo.Mutate(x => x.Resize((int) (logo.Width * logoScaling), (int) (logo.Height * logoScaling)));
-
-            var thinFont = FontCollection.Families.Single(x => x.Name == "JetBrains Mono Thin");
-            var boldFont = FontCollection.Families.Single(x => x.Name == "JetBrains Mono ExtraBold");
-
             const int width = 1200;
             const int height = 675;
-            var image = new Image<Rgba64>(width: width, height: height);
-            image.Mutate(x => x
-                .BackgroundColor(color: Color.FromRgb(r: 25, g: 25, b: 25))
-                .DrawImage(
-                    foreground: logo,
-                    backgroundLocation: new Point(image.Width / 2 - logo.Width / 2, image.Height / 2 - logo.Height / 2),
-                    opacity: 0.05f)
-                .DrawText(
-                    text: "New Release".ToUpperInvariant(),
-                    color: Color.WhiteSmoke,
-                    textOptions: new RichTextOptions(thinFont.CreateFont(100))
-                                 {
-                                     Origin = new PointF(image.Width / 2f, image.Height / 2f - 120),
-                                     HorizontalAlignment = HorizontalAlignment.Center,
-                                     VerticalAlignment = VerticalAlignment.Center
-                                 })
-                .DrawText(
-                    text: ReleaseVersion,
-                    color: Color.WhiteSmoke,
-                    textOptions: new RichTextOptions(boldFont.CreateFont(230))
-                                 {
-                                     Origin = new PointF(image.Width / 2f, image.Height / 2f + 60),
-                                     HorizontalAlignment = HorizontalAlignment.Center,
-                                     VerticalAlignment = VerticalAlignment.Center
-                                 }));
+            const float logoScale = 0.37f;
+            using var bitmap = new SKBitmap(width, height);
+            using var canvas = new SKCanvas(bitmap);
+            canvas.Clear(new SKColor(25, 25, 25));
+
+            using var logo = SKBitmap.Decode(WatermarkImageFile)
+                ?? throw new InvalidDataException($"Could not decode the watermark image at {WatermarkImageFile}.");
+            var logoWidth = (int) (logo.Width * logoScale);
+            var logoHeight = (int) (logo.Height * logoScale);
+            var logoBounds = SKRect.Create((width - logoWidth) / 2, (height - logoHeight) / 2, logoWidth, logoHeight);
+            using var logoPaint = new SKPaint { Color = SKColors.White.WithAlpha(13) };
+            canvas.DrawBitmap(logo, logoBounds, new SKSamplingOptions(SKCubicResampler.Mitchell), logoPaint);
+
+            using var textPaint = new SKPaint { Color = SKColors.WhiteSmoke, IsAntialias = true };
+            DrawCenteredText("NEW RELEASE", "JetBrainsMono-Thin.ttf", 100, height / 2f - 120);
+            DrawCenteredText(ReleaseVersion, "JetBrainsMono-ExtraBold.ttf", 230, height / 2f + 60);
 
             using var fileStream = new FileStream(ReleaseImageFile, FileMode.Create);
-            image.SaveAsPng(fileStream);
+            if (!bitmap.Encode(fileStream, SKEncodedImageFormat.Png, 100))
+                throw new IOException($"Could not encode the release image at {ReleaseImageFile}.");
+
+            void DrawCenteredText(string text, string fontFile, float fontSize, float centerY)
+            {
+                var fontPath = FontDirectory.GlobFiles($"**/{fontFile}").Single();
+                using var typeface = SKTypeface.FromFile(fontPath)
+                    ?? throw new InvalidDataException($"Could not load the font at {fontPath}.");
+                using var font = new SKFont(typeface, fontSize);
+                font.MeasureText(text, out var bounds);
+                canvas.DrawText(text, width / 2f - bounds.MidX, centerY - bounds.MidY, SKTextAlign.Left, font, textPaint);
+            }
         });
 }
